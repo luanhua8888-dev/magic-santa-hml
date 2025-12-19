@@ -1,0 +1,1043 @@
+:root {
+    --primary: #c41e3a;
+    /* Rich Christmas Red */
+    --primary-hover: #a01830;
+    --accent: #d4af37;
+    /* Metallic Gold */
+    --accent-glow: rgba(212, 175, 55, 0.4);
+    --bg-dark: #050706;
+    /* Deep Midnight Green/Black */
+    --text-light: #f8f9fa;
+    --text-muted: #a0a0a0;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    cursor: none;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Cinematic Grain Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Custom Magical Cursor */
+#magic-cursor {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    box-shadow: 0 0 15px var(--accent);
+    transform: translate(-50%, -50%);
+}
+
+#cursor-follower {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s, border 0.3s;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+.magic-text {
+    font-family: 'Mountains of Christmas', cursive;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.gold-gradient {
+    background: linear-gradient(to right,
+            #bf953f,
+            #fcf6ba,
+            #b38728,
+            #fbf5b7,
+            #aa771c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+nav.scrolled {
+    padding: 1.2rem 5%;
+    background: rgba(5, 7, 6, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.logo {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 2.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 3.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-family: 'Playfair Display', serif;
+    /* Updated to match theme */
+    font-weight: 600;
+    /* Bold enough to be readable */
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.4s;
+    opacity: 0.8;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+    opacity: 1;
+    letter-spacing: 3px;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+.hero-img-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+    filter: brightness(0.6) contrast(1.1);
+    transform: scale(1.05);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, var(--bg-dark), transparent);
+    z-index: 2;
+}
+
+.container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Branch Overlays */
+.branch-overlay {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2000;
+    width: 30vw;
+    min-width: 400px;
+    filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.9));
+    opacity: 0.9;
+}
+
+.branch-tl {
+    top: -80px;
+    left: -80px;
+}
+
+.branch-tr {
+    top: -80px;
+    right: -80px;
+    transform: scaleX(-1);
+}
+
+/* Glass Cards - Premium Upgrade */
+.glass-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(20, 20, 20, 0.4) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    /* Stronger top light */
+    border-radius: 8px;
+    padding: 4rem;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle Noise Texture Overlay */
+.glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+}
+
+.glass-card:hover {
+    transform: translateY(-10px) scale(1.01);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(30, 30, 30, 0.5) 100%);
+    border-color: rgba(212, 175, 55, 0.3);
+    /* Gold tint on hover */
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    color: var(--accent);
+    transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.glass-card:hover .icon-wrapper {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: rotate(360deg) scale(1.1);
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+/* Buttons - Premium Upgrade */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 3.5rem;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    /* Updated to match theme */
+    font-weight: 700;
+    font-size: 1rem;
+    /* Slightly larger for serif readability */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border-radius: 2px;
+}
+
+.btn-primary {
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.1) 10px,
+            transparent 10px,
+            transparent 20px),
+        linear-gradient(135deg, var(--primary) 0%, #a01830 100%);
+    background-blend-mode: overlay;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    transform: skewX(-20deg);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 20px 40px rgba(196, 30, 58, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #c41e3a 0%, #d41e3a 100%);
+}
+
+/* Snowfall */
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.snowflake {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form Styling */
+input,
+select {
+    outline: none;
+    transition: 0.4s;
+}
+
+input:focus,
+select:focus {
+    border-bottom-color: var(--accent) !important;
+    /* Changed from primary (red) to accent (gold) for consistency */
+    background: rgba(212, 175, 55, 0.05);
+    /* Subtle gold tint on focus */
+}
+
+/* Removed native datepicker styles in favor of Flatpickr custom theme */
+
+/* Flatpickr Custom Theme (Dark & Gold Artisan) */
+.flatpickr-calendar {
+    background: #050505 !important;
+    /* Force darker background */
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--accent);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Playfair Display', serif;
+    border-radius: 4px;
+    width: 320px;
+    padding: 1rem;
+}
+
+.flatpickr-calendar::before,
+.flatpickr-calendar::after {
+    border-bottom-color: var(--accent) !important;
+}
+
+.flatpickr-month {
+    color: var(--accent);
+    fill: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    color: var(--accent) !important;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month input.cur-year:hover {
+    background: transparent;
+}
+
+.flatpickr-weekdays {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+}
+
+span.flatpickr-weekday {
+    color: #888 !important;
+    /* Visible gray for weekdays */
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.flatpickr-day {
+    color: rgba(255, 255, 255, 0.8) !important;
+    /* Visible light text for days */
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    transition: 0.3s;
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
+    color: rgba(255, 255, 255, 0.1) !important;
+    /* Dimmed for disabled */
+}
+
+.flatpickr-day:hover,
+.flatpickr-day:focus {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: transparent;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent-glow);
+    font-weight: bold;
+}
+
+.flatpickr-day.today {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.flatpickr-day.today:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+}
+
+/* Ensure Month/Year navigation checks out */
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    fill: var(--accent) !important;
+    /* Force gold fill */
+    color: var(--accent) !important;
+}
+
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg {
+    fill: var(--accent) !important;
+    /* Target SVG directly */
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #fff !important;
+    /* White on hover */
+}
+
+.flatpickr-monthDropdown-months {
+    background: var(--bg-dark);
+    /* Ensure dropdown background is dark */
+}
+
+/* Animation Utilities */
+.reveal-text {
+    overflow: hidden;
+}
+
+.word {
+    display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 4rem !important;
+    }
+}
+
+/* Premium Preloader */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.loader-bar {
+    width: 250px;
+    height: 2px;
+    background: rgba(212, 175, 55, 0.1);
+    margin: 2rem auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-progress {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    animation: progress 2s infinite ease-in-out;
+}
+
+@keyframes progress {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 0;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Countdown */
+.count-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.count-item span {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.count-item small {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    margin-top: 0.5rem;
+    opacity: 0.5;
+}
+
+/* Image Icon Box */
+.image-icon-box {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.image-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.glass-card:hover .image-icon-box img {
+    transform: scale(1.1);
+}
+
+/* Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 300px;
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.gallery-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item.wide {
+    grid-column: span 2;
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: 0.5s;
+    backdrop-filter: blur(5px);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Gift Box */
+.gift-section {
+    padding: 15rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.gift-box-container {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+#gift-box {
+    width: 200px;
+    height: 200px;
+    background: transparent;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: 0.5s;
+}
+
+/* Decoration Styles */
+.deco-bells {
+    position: absolute;
+    top: -20px;
+    right: 5%;
+    width: 200px;
+    /* Adjust size as needed */
+    z-index: 20;
+    pointer-events: none;
+    transform-origin: top center;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+.animate-swing {
+    animation: swing 3s ease-in-out infinite;
+}
+
+@keyframes swing {
+
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+.deco-snowflake {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    width: 150px;
+    opacity: 0.8;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    mix-blend-mode: screen;
+}
+
+.animate-spin-slow {
+    animation: spinSlow 20s linear infinite;
+}
+
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.deco-candy {
+    position: absolute;
+    top: -50px;
+    right: -20px;
+    width: 250px;
+    transform: rotate(15deg);
+    z-index: 10;
+    pointer-events: none;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+.hero-border-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    /* Much smaller fixed height */
+    object-fit: cover;
+    z-index: 15;
+    pointer-events: none;
+    /* transform: scaleY(-1); Removed flip if unneeded, or keep if user liked orientation. Let's keep it consistent but smaller. */
+    transform: scaleY(-1);
+    opacity: 0.9;
+}
+
+/* Floating Bauble */
+.floating-bauble {
+    position: absolute;
+    top: -50px;
+    right: 10%;
+    width: 100px;
+    z-index: 15;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Music Icon Animation */
+.music-icon {
+    cursor: pointer;
+    transition: 0.3s;
+    color: var(--accent);
+}
+
+.music-icon.playing {
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    to {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Magic Cursor Particles */
+.cursor-particle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Wish Sender Styles */
+/* refined Wish Sender Styles */
+.wish-fab {
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    width: 60px;
+    height: 60px;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 900;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+}
+
+.wish-fab:hover {
+    transform: translateY(-5px);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.wish-icon {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.wish-fab:hover .wish-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 5px var(--accent));
+}
+
+.wish-tooltip {
+    position: absolute;
+    right: 80px;
+    background: rgba(5, 7, 6, 0.9);
+    backdrop-filter: blur(5px);
+    color: var(--accent);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(10px);
+}
+
+.wish-fab:hover .wish-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.wish-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.wish-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.wish-card {
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: linear-gradient(135deg, rgba(20, 20, 25, 0.95), rgba(30, 30, 35, 0.9));
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+}
+
+.wish-modal-overlay.active .wish-card {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.close-wish {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 1;
+}
+
+.close-wish:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
+#wish-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    resize: none;
+    margin-top: 1rem;
+    transition: 0.3s;
+}
+
+#wish-input:focus {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+.wish-success {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+}
+
+.wish-success.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Flying Santa */
+#flying-santa-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Full screen for random vertical path */
+    pointer-events: none;
+    z-index: 10001;
+    /* Above almost everything */
+    overflow: hidden;
+    visibility: hidden;
+    /* Hidden until triggered */
+}
+
+#flying-santa {
+    position: absolute;
+    white-space: nowrap;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 200, 0.4));
+    z-index: 2;
+}
+
+.magic-dust {
+    position: fixed;
+    /* Fixed to match Santa's coordinate space */
+    width: 6px;
+    /* Slightly larger */
+    height: 6px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    /* Glowing effect */
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 15px var(--accent-glow);
+    z-index: 10000;
+    /* High z-index to be visible */
+    mix-blend-mode: screen;
+}
