@@ -1336,6 +1336,34 @@ span.flatpickr-weekday {
     .flatpickr-calendar {
         max-width: 90vw !important;
     }
+
+    /* Mobile Performance Overrides */
+    * {
+        /* Disable excessive transitions on low-power devices if scrolling */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .snowflake {
+        will-change: transform;
+        /* Hardware acceleration */
+        filter: none !important;
+        /* Disable expensive blurs on mobile snow */
+    }
+
+    .glass-card,
+    nav,
+    #north-pole-status,
+    .wish-fab {
+        backdrop-filter: blur(5px) !important;
+        /* Drastically reduce blur for GPU */
+        -webkit-backdrop-filter: blur(5px) !important;
+        will-change: transform;
+    }
+
+    .hero-img-bg {
+        transform: none !important;
+        /* Disable parallax on mobile */
+    }
 }
 
 /* UI Toggle State - Added dynamically */

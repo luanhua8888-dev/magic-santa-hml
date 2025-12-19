@@ -4,51 +4,58 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 // EmailJS Configuration (ACTIVE WITH USER KEYS)
 if (typeof emailjs !== 'undefined') {
     emailjs.init("Zo9pYt96J3B4lwEoD");
-    console.log("EmailJS Initialized with Public Key: Zo9pYt96J3B4lwEoD");
 }
+
+// Mobile Detection
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 // 1. Custom Magical Cursor with Leading Momentum
 const cursor = document.getElementById('magic-cursor');
 const follower = document.getElementById('cursor-follower');
 
-let mouse = { x: 0, y: 0 };
-let pos = { x: 0, y: 0 };
-let ratio = 0.15;
+if (isMobile) {
+    if (cursor) cursor.style.display = 'none';
+    if (follower) follower.style.display = 'none';
+} else {
+    let mouse = { x: 0, y: 0 };
+    let pos = { x: 0, y: 0 };
+    let ratio = 0.15;
 
-window.addEventListener('mousemove', e => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-gsap.ticker.add(() => {
-    pos.x += (mouse.x - pos.x) * ratio;
-    pos.y += (mouse.y - pos.y) * ratio;
-
-    gsap.set(cursor, { x: mouse.x, y: mouse.y });
-    gsap.set(follower, { x: pos.x, y: pos.y });
-});
-
-// Cursor Interactions
-document.querySelectorAll('a, button, .glass-card, select, input, .gallery-item, #gift-box').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        gsap.to(follower, {
-            scale: 2,
-            backgroundColor: 'rgba(212, 175, 55, 0.1)',
-            borderColor: 'transparent',
-            duration: 0.3
-        });
-        gsap.to(cursor, { scale: 0.5, duration: 0.3 });
+    window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
     });
-    el.addEventListener('mouseleave', () => {
-        gsap.to(follower, {
-            scale: 1,
-            backgroundColor: 'transparent',
-            borderColor: 'var(--accent)',
-            duration: 0.3
-        });
-        gsap.to(cursor, { scale: 1, duration: 0.3 });
+
+    gsap.ticker.add(() => {
+        pos.x += (mouse.x - pos.x) * ratio;
+        pos.y += (mouse.y - pos.y) * ratio;
+
+        gsap.set(cursor, { x: mouse.x, y: mouse.y });
+        gsap.set(follower, { x: pos.x, y: pos.y });
     });
-});
+
+    // Cursor Interactions
+    document.querySelectorAll('a, button, .glass-card, select, input, .gallery-item, #gift-box').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to(follower, {
+                scale: 2,
+                backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                borderColor: 'transparent',
+                duration: 0.3
+            });
+            gsap.to(cursor, { scale: 0.5, duration: 0.3 });
+        });
+        el.addEventListener('mouseleave', () => {
+            gsap.to(follower, {
+                scale: 1,
+                backgroundColor: 'transparent',
+                borderColor: 'var(--accent)',
+                duration: 0.3
+            });
+            gsap.to(cursor, { scale: 1, duration: 0.3 });
+        });
+    });
+}
 
 // 2. High-End Text Animations using SplitType
 const initAnimations = () => {
@@ -116,8 +123,9 @@ const initAnimations = () => {
 // 3. Snowfall Engine (Cinematic Depth & Physics)
 const createSnow = () => {
     const container = document.getElementById('snow-container');
+    if (!container) return;
     container.innerHTML = ''; // Clear existing
-    const snowCount = 150;
+    const snowCount = isMobile ? 50 : 150; // Drastically reduce elements on mobile
     const flakeChars = ['❄', '❅', '❆', '•']; // Added actual character variants
 
     for (let i = 0; i < snowCount; i++) {
@@ -180,14 +188,18 @@ const animateSnow = (el, depth, isCrystal) => {
     // 2. Lateral Drift (Wind)
     const startX = Math.random() * window.innerWidth;
     gsap.fromTo(el, {
-        x: startX - 100 // Start slightly left
+        x: startX - 100
     }, {
         x: startX + windForce + (Math.random() * 50),
         duration: duration,
         ease: "none",
         repeat: -1,
+        force3D: true, // Hardware acceleration
         delay: -Math.random() * duration
     });
+
+    // Skip heavy animations on mobile
+    if (isMobile) return;
 
     // 3. Natural Sway (Oscillation)
     gsap.to(el, {
@@ -202,7 +214,7 @@ const animateSnow = (el, depth, isCrystal) => {
     if (isCrystal) {
         gsap.to(el, {
             rotation: 360,
-            duration: duration * (Math.random() * 0.5 + 0.5), // Rotate at varying speeds
+            duration: duration * (Math.random() * 0.5 + 0.5),
             repeat: -1,
             ease: "none"
         });
