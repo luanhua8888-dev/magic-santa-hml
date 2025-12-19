@@ -1,6 +1,12 @@
 // GSAP Core
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+// EmailJS Configuration (ACTIVE WITH USER KEYS)
+if (typeof emailjs !== 'undefined') {
+    emailjs.init("Zo9pYt96J3B4lwEoD");
+    console.log("EmailJS Initialized with Public Key: Zo9pYt96J3B4lwEoD");
+}
+
 // 1. Custom Magical Cursor with Leading Momentum
 const cursor = document.getElementById('magic-cursor');
 const follower = document.getElementById('cursor-follower');
@@ -112,33 +118,47 @@ const createSnow = () => {
     const container = document.getElementById('snow-container');
     container.innerHTML = ''; // Clear existing
     const snowCount = 150;
+    const flakeChars = ['❄', '❅', '❆', '•']; // Added actual character variants
 
     for (let i = 0; i < snowCount; i++) {
         const snow = document.createElement('div');
         snow.className = 'snowflake';
 
+        // Randomly decide if it's a detailed crystal or a soft bokeh dot
+        const isCrystal = Math.random() > 0.4; // 60% chance of being a crystal
+
         // Physics properties: Depth 0 (far) to 1 (near)
         const depth = Math.random();
-        const size = (Math.random() * 3 + 2) + (depth * 5); // 2px to 7px
 
-        // Style: Soft Bokeh Circles (Premium feel)
-        snow.style.width = `${size}px`;
-        snow.style.height = `${size}px`;
-        snow.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0) 70%)';
-        snow.style.borderRadius = '50%';
+        let size;
+        if (isCrystal) {
+            snow.classList.add('crystal');
+            snow.innerHTML = flakeChars[Math.floor(Math.random() * 3)];
+            size = (Math.random() * 15 + 10) + (depth * 20); // 10px to 45px for crystals
+            snow.style.fontSize = `${size}px`;
+            snow.style.background = 'none'; // Ensure no background
+        } else {
+            size = (Math.random() * 3 + 2) + (depth * 5); // 2px to 7px for dots
+            snow.style.width = `${size}px`;
+            snow.style.height = `${size}px`;
+            snow.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0) 70%)';
+            snow.style.borderRadius = '50%';
+        }
+
         snow.style.position = 'absolute';
 
         // Depth effects
-        snow.style.opacity = 0.2 + (depth * 0.6); // Nearer = brighter
-        snow.style.filter = `blur(${(1 - depth) * 3}px)`; // Farther = blurrier
+        snow.style.opacity = isCrystal ? 0.3 + (depth * 0.7) : 0.2 + (depth * 0.6);
+        // Only blur bg items slightly less if they are crystals to keep detail
+        snow.style.filter = `blur(${(1 - depth) * (isCrystal ? 1 : 3)}px)`;
         snow.style.zIndex = depth > 0.8 ? 100 : 50;
 
         container.appendChild(snow);
-        animateSnow(snow, depth);
+        animateSnow(snow, depth, isCrystal);
     }
 };
 
-const animateSnow = (el, depth) => {
+const animateSnow = (el, depth, isCrystal) => {
     // Speed: Nearer objects appear to fall faster (Parallax)
     const duration = 10 + (1 - depth) * 15 + Math.random() * 5;
 
@@ -147,19 +167,20 @@ const animateSnow = (el, depth) => {
 
     // 1. Fall Motion (Looping)
     gsap.fromTo(el, {
-        y: -50
+        y: -100
     }, {
-        y: window.innerHeight + 50,
+        y: window.innerHeight + 100,
         duration: duration,
         ease: "none",
         repeat: -1,
-        delay: -Math.random() * duration // Start random mid-air
+        // Random negative delay to have them pre-scattered on screen
+        delay: -Math.random() * duration
     });
 
     // 2. Lateral Drift (Wind)
     const startX = Math.random() * window.innerWidth;
     gsap.fromTo(el, {
-        x: startX - 50 // Start slightly left to account for wind
+        x: startX - 100 // Start slightly left
     }, {
         x: startX + windForce + (Math.random() * 50),
         duration: duration,
@@ -176,6 +197,16 @@ const animateSnow = (el, depth) => {
         repeat: -1,
         ease: "sine.inOut"
     });
+
+    // 4. Rotation for Crystals
+    if (isCrystal) {
+        gsap.to(el, {
+            rotation: 360,
+            duration: duration * (Math.random() * 0.5 + 0.5), // Rotate at varying speeds
+            repeat: -1,
+            ease: "none"
+        });
+    }
 };
 
 // 4. Parallax Background
@@ -217,29 +248,114 @@ const initCountdown = () => {
 const initGiftBox = () => {
     const box = document.getElementById('gift-box');
     const lid = box.querySelector('.gift-lid');
-    let opened = false;
+    const modal = document.getElementById('gift-modal');
+    const closeBtn = document.querySelector('.close-gift');
+    const actionBtn = document.querySelector('.close-gift-action');
+    const giftTitle = document.getElementById('gift-title');
+    const giftDesc = document.getElementById('gift-description');
+    const giftImgContainer = document.getElementById('gift-image-container');
+
+    // Gift Collection
+    const gifts = [
+        {
+            title: "Tấm Vé Vàng",
+            desc: "Ưu tiên đặt lịch gặp ông già Noel. Bạn hiện là người đầu tiên trong danh sách.",
+            img: "/assets/images/1a.png"
+        },
+        {
+            title: "Chìa Khóa Thần Kỳ Của Santa",
+            desc: "Chiếc chìa khóa huyền thoại mở cửa trái tim đón nhận tinh thần Giáng Sinh.",
+            img: "/assets/images/2a.png"
+        },
+        {
+            title: "Quả Cầu Tuyết Bắc Cực",
+            desc: "Một thế giới kỳ diệu thu nhỏ. Hãy lắc nhẹ để thấy tuyết rơi phép thuật.",
+            img: "/assets/images/3a.png"
+        },
+        {
+            title: "Chiếc Chuông Của Niềm Tin",
+            desc: "Nó chỉ ngân vang cho những ai thực sự tin tưởng. Bạn có nghe thấy không?",
+            img: "/assets/images/4a.png"
+        },
+        {
+            title: "Cuộn Giấy Danh Sách Ngoan",
+            desc: "Xác nhận chính thức từ chính Ông Già Noel. Bạn đã có tên trong danh sách!",
+            img: "/assets/images/5a.png"
+        },
+        {
+            title: "Cacao Của Bà Claus",
+            desc: "Một lọ hỗn hợp sô cô la hảo hạng, được sưởi ấm bằng tình yêu vô điều kiện.",
+            img: "/assets/images/6a.png"
+        },
+        {
+            title: "Tàu Tốc Hành Lúc Nửa Đêm",
+            desc: "Kỷ vật cổ điển nhắc nhở bạn rằng hành trình chính là đích đến.",
+            img: "/assets/images/7a.png"
+        },
+        {
+            title: "Túi Nhung Đỏ",
+            desc: "Được dệt bằng những giấc mơ và sẵn sàng để đong đầy niềm vui.",
+            img: "/assets/images/8a.png"
+        },
+        {
+            title: "Búa Của Yêu Tinh",
+            desc: "Công cụ sáng tạo từ xưởng chế tác đồ chơi bậc thầy.",
+            img: "/assets/images/9a.png"
+        },
+        {
+            title: "Ngôi Sao Pha Lê",
+            desc: "Ánh sáng dẫn đường đặt trên đỉnh cây thông, tỏa sáng niềm hy vọng.",
+            img: "/assets/images/10a.png"
+        },
+        {
+            title: "Cà Rốt Thần Kỳ",
+            desc: "Món ăn phép thuật tiếp thêm sức mạnh bay lượn cho những chú tuần lộc.",
+            img: "/assets/images/11a.png"
+        }
+    ];
+
+    const openGift = () => {
+        // Select random gift
+        const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+
+        // Populate Modal
+        giftTitle.innerText = randomGift.title;
+        giftDesc.innerText = randomGift.desc;
+        giftImgContainer.innerHTML = `<img src="${randomGift.img}" alt="${randomGift.title}">`;
+
+        // Open Modal
+        modal.classList.add('active');
+
+        // Create burst effect inside modal too
+        setTimeout(() => {
+            createBurst(document.querySelector('.gift-reveal-card'));
+        }, 500);
+    };
+
+    const closeGiftModal = () => {
+        modal.classList.remove('active');
+    };
 
     box.addEventListener('click', () => {
-        if (!opened) {
-            gsap.to(lid, {
-                y: -100,
-                x: 50,
-                rotation: 45,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'back.out(1.7)'
-            });
-            gsap.to(box, {
-                scale: 1.1,
-                yoyo: true,
-                repeat: 3,
-                duration: 0.1
-            });
+        // Animation for box opening
+        gsap.to(box, {
+            scale: 0.9,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {
+                createBurst(box);
+                setTimeout(openGift, 500);
+            }
+        });
+    });
 
-            // Magical Particle Burst
-            createBurst(box);
-            opened = true;
-        }
+    closeBtn.addEventListener('click', closeGiftModal);
+    actionBtn.addEventListener('click', closeGiftModal);
+
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeGiftModal();
     });
 };
 
@@ -266,14 +382,27 @@ const createBurst = (parent) => {
     }
 };
 
-// 7. Music Toggle (Visual Only)
+// 7. Music Toggle (Audio & Visual)
 const initMusic = () => {
     const toggle = document.getElementById('music-toggle');
+    // Using a reliable direct MP3 from Incompetech
+    const bgm = new Audio('https://incompetech.com/music/royalty-free/mp3-royaltyfree/Jingle%20Bells.mp3');
+    bgm.loop = true;
+    bgm.volume = 0.5;
+
     toggle.addEventListener('click', () => {
         toggle.classList.toggle('playing');
         if (toggle.classList.contains('playing')) {
+            console.log("Attempting to play music...");
+            bgm.play().then(() => {
+                console.log("Music playing successfully");
+            }).catch(e => {
+                console.error("Audio playback failed:", e);
+                alert("Không thể phát nhạc. Vui lòng kiểm tra quyền trình duyệt của bạn.");
+            });
             gsap.to(toggle, { color: 'var(--primary)', scale: 1.2, duration: 0.3 });
         } else {
+            bgm.pause();
             gsap.to(toggle, { color: 'var(--accent)', scale: 1, duration: 0.3 });
         }
     });
@@ -391,7 +520,7 @@ const initWishSender = () => {
             card.style.opacity = '1';
             success.classList.remove('active');
             input.value = '';
-            btn.innerHTML = 'SEND TO NORTH POLE';
+            btn.innerHTML = 'GỬI ĐẾN BẮC CỰC';
         }, 500);
     };
 
@@ -406,7 +535,7 @@ const initWishSender = () => {
     btn.addEventListener('click', () => {
         if (!input.value.trim()) return;
 
-        btn.innerHTML = 'Sending... ❄️';
+        btn.innerHTML = 'Đang gửi... ❄️';
 
         // Simulate sending
         gsap.to(card, {
@@ -428,27 +557,28 @@ const initWishSender = () => {
     });
 };
 
-// Preloader Removal
-window.addEventListener('load', () => {
-    gsap.to('#preloader', {
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.inOut',
-        onComplete: () => {
-            document.getElementById('preloader').style.display = 'none';
-            initAnimations();
-            initCountdown();
-            initGiftBox();
-            initMusic();
-            createSnow();
-            initMagicCursor();
-            initCardTilt();
-            initWishSender();
-            initFlyingSanta();
-            initDatepicker();
+// 13. UI Toggle (Immersive Mode)
+const initNavToggle = () => {
+    const nav = document.getElementById('navbar');
+    const logo = document.querySelector('.logo');
+
+    if (!nav || !logo) return;
+
+    // Add a tooltip hint via title attribute
+    logo.title = "Nhấn để bật chế độ Chìm đắm";
+
+    logo.addEventListener('click', (e) => {
+        e.preventDefault();
+        nav.classList.toggle('ui-hidden');
+
+        // Optional: Play a subtle sound or effect
+        if (nav.classList.contains('ui-hidden')) {
+            gsap.to(logo, { scale: 0.9, duration: 0.2, yoyo: true, repeat: 1 });
         }
     });
-});
+};
+
+// ... (Preloader logic remains) ...
 
 // 12. Custom Datepicker Initialization
 const initDatepicker = () => {
@@ -457,6 +587,7 @@ const initDatepicker = () => {
         minDate: "today",
         disableMobile: "true", // Force custom picker on mobile too
         animate: true,
+        locale: "vn", // Vietnamese locale
         bg: "#000" // Just a placeholder, styling is done in CSS
     });
 };
@@ -581,6 +712,291 @@ const initFlyingSanta = () => {
     fly();
 };
 
+// 14. FAQ Accordion Logic
+const initFaq = () => {
+    const items = document.querySelectorAll('.faq-item');
+
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            // Close all others
+            items.forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
+
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+};
+
+// 15. Naughty or Nice Detector
+const initDetector = () => {
+    const inputPhase = document.getElementById('detector-input-phase');
+    const scanningPhase = document.getElementById('detector-scanning-phase');
+    const resultPhase = document.getElementById('detector-result-phase');
+    const nameInput = document.getElementById('detector-name');
+    const scanBtn = document.getElementById('btn-scan');
+    const statusText = document.getElementById('scan-status');
+    const resultName = document.getElementById('result-name');
+    const resetBtn = document.getElementById('btn-reset-scan');
+    const stamp = document.getElementById('result-stamp');
+
+    if (!inputPhase) return;
+
+    scanBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        if (!name) {
+            alert("Vui lòng nhập tên của bé!");
+            return;
+        }
+
+        // Switch to scanning
+        gsap.to(inputPhase, {
+            opacity: 0,
+            y: -20,
+            duration: 0.5,
+            onComplete: () => {
+                inputPhase.style.display = 'none';
+                scanningPhase.style.display = 'block';
+                gsap.fromTo(scanningPhase, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+
+                // Simulate scanning steps
+                const steps = [
+                    "Đang kết nối vệ tinh tuần lộc...",
+                    "Đang phân tích hành vi...",
+                    "Đang kiểm tra tần suất dọn phòng...",
+                    "Đang tải dữ liệu từ Bắc Cực..."
+                ];
+
+                let step = 0;
+                const interval = setInterval(() => {
+                    statusText.innerText = steps[step];
+                    step++;
+                    if (step >= steps.length) {
+                        clearInterval(interval);
+                        finishScan(name);
+                    }
+                }, 1500);
+            }
+        });
+    });
+
+    const finishScan = (name) => {
+        gsap.to(scanningPhase, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.5,
+            onComplete: () => {
+                scanningPhase.style.display = 'none';
+                resultPhase.style.display = 'block';
+                resultName.innerText = name;
+
+                gsap.fromTo(resultPhase, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5 });
+
+                // Stamp effect
+                setTimeout(() => {
+                    stamp.classList.add('stamp-active');
+                    createBurst(resultPhase);
+                }, 500);
+            }
+        });
+    };
+
+    resetBtn.addEventListener('click', () => {
+        nameInput.value = '';
+        stamp.classList.remove('stamp-active');
+
+        gsap.to(resultPhase, {
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            onComplete: () => {
+                resultPhase.style.display = 'none';
+                inputPhase.style.display = 'block';
+                gsap.fromTo(inputPhase, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+            }
+        });
+    });
+};
+
+// 16. North Pole Live Status Updates
+const initNorthPoleStatus = () => {
+    const locations = ["Xưởng Đồ Chơi", "Chuồng Tuần Lộc", "Văn Phòng Santa", "Cảng Băng Bắc Cực", "Nhà Bếp Của Bà Claus"];
+    const actions = ["Kiểm tra danh sách 📜", "Cho tuần lộc ăn 🥕", "Gói quà thần tốc 🎁", "Pha cacao nóng ☕", "Đọc thư em bé ✉️"];
+
+    const locEl = document.querySelector('#santa-loc span');
+    const actEl = document.querySelector('#santa-action span');
+    const tempEl = document.querySelector('#santa-temp span');
+
+    if (!locEl || !actEl || !tempEl) return;
+
+    const update = () => {
+        // Change location and action randomly
+        locEl.innerText = locations[Math.floor(Math.random() * locations.length)];
+        actEl.innerText = actions[Math.floor(Math.random() * actions.length)];
+
+        // Slight temperature fluctuation
+        const temp = -20 - Math.floor(Math.random() * 15);
+        tempEl.innerText = `${temp}°C`;
+
+        // Animate the update
+        gsap.from([locEl, actEl, tempEl], {
+            opacity: 0,
+            y: 5,
+            duration: 0.5,
+            stagger: 0.1
+        });
+    };
+
+    // Update every 10 seconds
+    setInterval(update, 10000);
+    update(); // Initial call
+
+    // Toggle Minimize/Expand by clicking the box
+    const container = document.getElementById('north-pole-status');
+    if (container) {
+        container.addEventListener('click', () => {
+            container.classList.toggle('minimized');
+        });
+    }
+};
+
+// 17. Gallery Lightbox Logic
+const initGalleryLightbox = () => {
+    const modal = document.getElementById('gallery-modal');
+    const img = document.getElementById('lightbox-img');
+    const caption = document.getElementById('lightbox-caption');
+    const closeBtn = document.querySelector('.close-gallery');
+    const items = document.querySelectorAll('.gallery-item');
+
+    if (!modal) return;
+
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const src = item.querySelector('img').src;
+            const text = item.querySelector('.gallery-overlay p')?.innerText || "Khoảnh khắc nhiệm màu";
+
+            img.src = src;
+            caption.innerText = text;
+            modal.classList.add('active');
+        });
+    });
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+};
+
+// 18. Postcard Studio Logic
+const initPostcardStudio = () => {
+    const inputTo = document.getElementById('card-to');
+    const inputMsg = document.getElementById('card-message');
+    const inputEmail = document.getElementById('card-email');
+    const previewTo = document.getElementById('preview-to');
+    const previewMsg = document.getElementById('preview-message');
+    const mintBtn = document.getElementById('mint-card-btn');
+    const previewCard = document.getElementById('postcard-preview');
+    const sealStamp = document.getElementById('postcard-seal-stamp');
+    const successOverlay = document.getElementById('postcard-success-overlay');
+
+    if (!inputTo || !previewCard) return;
+
+    inputTo.addEventListener('input', (e) => {
+        previewTo.innerText = e.target.value || "Người Đặc Biệt";
+    });
+
+    inputMsg.addEventListener('input', (e) => {
+        previewMsg.innerText = e.target.value || "Hãy để phép màu của đêm Giáng Sinh soi sáng trái tim bạn...";
+    });
+
+    mintBtn.addEventListener('click', async () => {
+        const to = inputTo.value;
+        const email = inputEmail.value;
+        const msg = inputMsg.value;
+
+        if (!to || !email || !msg) {
+            alert("Vui lòng điền đầy đủ thông tin để gửi thiệp phép thuật!");
+            return;
+        }
+
+        const originalText = mintBtn.innerText;
+        mintBtn.innerText = "ĐANG NIÊM PHONG... ✨";
+        mintBtn.disabled = true;
+
+        // EmailJS Logic
+        if (typeof emailjs !== 'undefined') {
+            const params = {
+                name: to,
+                title: msg,
+                to_email: email, // Biến phổ biến nhất
+                email: email,    // Biến dự phòng 1
+                recipient: email, // Biến dự phòng 2
+                from_name: "Santa Magic"
+            };
+            console.log("Sending Email with params:", params);
+
+            emailjs.send("service_e3ftyx7", "template_5xvzs95", params, "Zo9pYt96J3B4lwEoD")
+                .then((res) => {
+                    console.log("Email sent successfully! Status:", res.status, res.text);
+                }).catch((err) => {
+                    console.error("EmailJS Error details:", err);
+                    if (err.status === 400) {
+                        console.error("Lỗi 400 (Bad Request): Hãy kiểm tra Service ID, Template ID hoặc Whitelisted Domains trong EmailJS Dashboard!");
+                    }
+                });
+        }
+
+        const tl = gsap.timeline();
+
+        // 1. Shake the card
+        tl.to(previewCard, {
+            x: 5, y: 5, rotate: 1, duration: 0.1, repeat: 5, yoyo: true
+        })
+            // 2. Drop the seal stamp
+            .to(sealStamp, {
+                opacity: 1, y: "-50%", scale: 1, duration: 0.6, ease: "back.out(1.7)",
+                onStart: () => {
+                    gsap.set(sealStamp, { y: -500, scale: 3, opacity: 0 });
+                    gsap.to(sealStamp, { opacity: 1, duration: 0.2 });
+                }
+            })
+            // 3. Card impact effect
+            .to(previewCard, {
+                scale: 0.98, duration: 0.1, yoyo: true, repeat: 1
+            }, "-=0.2")
+            // 4. Success Reveal
+            .add(() => {
+                createBurst(mintBtn);
+                successOverlay.classList.add('active');
+                mintBtn.innerText = "HOÀN TẤT NIÊM PHONG ✔";
+            }, "+=0.3");
+
+        setTimeout(() => {
+            setTimeout(() => {
+                mintBtn.innerText = originalText;
+                mintBtn.disabled = false;
+                setTimeout(() => {
+                    successOverlay.classList.remove('active');
+                    gsap.to(sealStamp, { opacity: 0, duration: 0.5 });
+                    // Clear inputs after success
+                    inputTo.value = '';
+                    inputEmail.value = '';
+                    inputMsg.value = '';
+                }, 3000);
+            }, 2000);
+        }, 1500);
+    });
+};
+
 // Navigation Scroll
 window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
@@ -590,3 +1006,42 @@ window.addEventListener('scroll', () => {
         nav.classList.remove('scrolled');
     }
 });
+
+// Preloader Removal - Robust Method
+const removePreloader = () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader && preloader.style.display !== 'none') {
+        gsap.to(preloader, {
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                preloader.style.display = 'none';
+                initNavToggle();
+                initAnimations();
+                initCountdown();
+                initGiftBox();
+                initMusic();
+                createSnow();
+                initMagicCursor();
+                initCardTilt();
+                initWishSender();
+                initFlyingSanta();
+                initDatepicker();
+                initFaq();
+                initDetector();
+                initNorthPoleStatus();
+                initGalleryLightbox();
+                initPostcardStudio();
+            }
+        });
+    }
+};
+
+// Try to remove on load
+window.addEventListener('load', removePreloader);
+
+// Fallback safety timeout (2s)
+setTimeout(() => {
+    removePreloader();
+}, 2000);

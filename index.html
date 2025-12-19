@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symphony of Christmas | Artisan Holiday Experience</title>
+    <title>Bản Giao Hưởng Giáng Sinh | Trải Nghiệm Nghệ Thuật</title>
     <meta name="description"
-        content="Elite Santa Claus experiences. Artisan holiday magic for the most discerning families.">
+        content="Trải nghiệm Ông già Noel đẳng cấp. Phép thuật ngày lễ nghệ thuật dành cho những gia đình sành điệu nhất.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,22 +17,26 @@
     <!-- Flatpickr (Custom Datepicker) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
     <!-- GSAP Premium stack -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/split-type"></script>
+    <!-- EmailJS SDK (Free client-side email) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 
 <body>
     <!-- Premium Preloader -->
     <div id="preloader">
         <div class="preloader-content">
-            <h2 class="magic-text" style="font-size: 3rem;">SANTA MAGIC</h2>
+            <h2 class="magic-text" style="font-size: 3rem;">PHÉP THUẬT GIÁNG SINH</h2>
             <div class="loader-bar">
                 <div class="loader-progress"></div>
             </div>
-            <p style="letter-spacing: 5px; font-size: 0.8rem; margin-top: 1rem; opacity: 0.5;">PREPARING THE MIRACLE</p>
+            <p style="letter-spacing: 5px; font-size: 0.8rem; margin-top: 1rem; opacity: 0.5;">ĐANG CHUẨN BỊ ĐIỀU KỲ
+                DIỆU</p>
         </div>
     </div>
 
@@ -41,13 +45,20 @@
     <div id="cursor-follower"></div>
 
     <nav id="navbar">
-        <a href="#" class="logo">SANTA MAGIC</a>
+        <a href="#" class="logo">
+            <img src="/assets/images/12a.png" class="logo-hat" alt="Santa Hat">
+            PHÉP THUẬT SANTA
+        </a>
         <ul class="nav-links">
-            <li><a href="#services">The Art</a></li>
-            <li><a href="#gallery">The Gallery</a></li>
-            <li><a href="#characters">The Cast</a></li>
+            <li><a href="#services">Nghệ Thuật</a></li>
+            <li><a href="#gallery">Thư Viện</a></li>
+            <li><a href="#process">Quy Trình</a></li>
+            <li><a href="#testimonials">Đánh Giá</a></li>
+            <li><a href="#faq">Hỏi Đáp</a></li>
+            <li><a href="#postcard-studio">Làm Thiệp</a></li>
+            <li><a href="#naughty-nice">Kiểm Tra</a></li>
         </ul>
-        <div style="display: flex; align-items: center; gap: 2rem;">
+        <div class="nav-actions" style="display: flex; align-items: center; gap: 2rem;">
             <div id="music-toggle" class="music-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -56,9 +67,24 @@
                     <circle cx="18" cy="16" r="3" />
                 </svg>
             </div>
-            <a href="#booking" class="btn btn-primary" style="padding: 1rem 2rem;">RESERVE</a>
+            <a href="#booking" class="btn btn-primary">ĐẶT LỊCH</a>
         </div>
     </nav>
+
+    <!-- North Pole Live Status -->
+    <div id="north-pole-status" class="glass-card" style="cursor: pointer;">
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            LIVE: BẮC CỰC
+        </div>
+        <div id="status-content">
+            <div class="status-details">
+                <p id="santa-loc">Vị trí: <span>Xưởng Đồ Chơi</span></p>
+                <p id="santa-temp">Nhiệt độ: <span>-24°C</span></p>
+                <p id="santa-action">Trạng thái: <span>Kiểm tra danh sách 📜</span></p>
+            </div>
+        </div>
+    </div>
 
     <div class="snow-container" id="snow-container"></div>
 
@@ -79,7 +105,7 @@
                 <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
         </div>
-        <div class="wish-tooltip">Make a Wish</div>
+        <div class="wish-tooltip">Điều Ước</div>
     </div>
 
     <!-- Wish Modal -->
@@ -87,16 +113,16 @@
         <div class="glass-card wish-card">
             <button class="close-wish">&times;</button>
             <div class="wish-header">
-                <p class="magic-text" style="font-size: 1.2rem;">Direct Line to Santa</p>
-                <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Make a Wish</h3>
+                <p class="magic-text" style="font-size: 1.2rem;">Đường Dây Nóng Tới Santa</p>
+                <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Gửi Điều Ước</h3>
             </div>
-            <textarea id="wish-input" placeholder="Dear Santa, this year I wish for..." rows="4"></textarea>
-            <button id="send-wish-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">SEND TO NORTH
-                POLE</button>
+            <textarea id="wish-input" placeholder="Gửi Ông già Noel, năm nay cháu ước..." rows="4"></textarea>
+            <button id="send-wish-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">GỬI ĐẾN BẮC
+                CỰC</button>
         </div>
         <div id="wish-success-msg" class="wish-success">
-            <h3 class="magic-text" style="font-size: 3rem;">Wish Sent!</h3>
-            <p>The elves are processing your request.</p>
+            <h3 class="magic-text" style="font-size: 3rem;">Đã Gửi!</h3>
+            <p>Các chú yêu tinh đang xử lý yêu cầu của bạn.</p>
         </div>
     </div>
 
@@ -105,32 +131,34 @@
         <section class="hero">
             <img src="/assets/images/hero.png" class="hero-img-bg" alt="Lone pine in snowy field">
             <div class="container hero-content">
-                <div class="countdown-wrapper reveal-item" style="margin-bottom: 2rem;">
-                    <p class="magic-text" style="font-size: 1.2rem; margin-bottom: 0.5rem; opacity: 0.8;">The Magic
-                        Arrives In</p>
+                <div class="countdown-wrapper reveal-item" style="margin-bottom: 2rem; margin-top: 8rem;">
+                    <p class="magic-text" style="font-size: 1.2rem; margin-bottom: 0.5rem; opacity: 0.8;">Phép Màu Sắp
+                        Đến Trong</p>
                     <div id="countdown" style="display: flex; gap: 2rem; font-family: 'Playfair Display', serif;">
-                        <div class="count-item"><span id="days">00</span><small>DAYS</small></div>
-                        <div class="count-item"><span id="hours">00</span><small>HOURS</small></div>
-                        <div class="count-item"><span id="minutes">00</span><small>MINS</small></div>
-                        <div class="count-item"><span id="seconds">00</span><small>SECS</small></div>
+                        <div class="count-item"><span id="days">00</span><small>NGÀY</small></div>
+                        <div class="count-item"><span id="hours">00</span><small>GIỜ</small></div>
+                        <div class="count-item"><span id="minutes">00</span><small>PHÚT</small></div>
+                        <div class="count-item"><span id="seconds">00</span><small>GIÂY</small></div>
                     </div>
                 </div>
-                <h1 class="reveal-text" style="font-size: 7.5rem;"><span class="gold-gradient">ARTISAN</span> <br> <span
-                        style="color: var(--text-light);">HOLIDAY</span></h1>
+                <h1 class="reveal-text" style="font-size: 7.5rem;"><span class="gold-gradient">NGHỆ THUẬT</span> <br>
+                    <span style="color: var(--text-light);">MÙA LỄ HỘI</span>
+                </h1>
                 <p class="reveal-item"
                     style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; max-width: 700px; margin-bottom: 4rem; color: rgba(255,255,255,0.8); line-height: 1.4;">
-                    Step into a world where legends come to life. We refine the holiday spirit into an unforgettable
-                    masterpiece for your family.</p>
+                    Bước vào thế giới nơi huyền thoại trở thành hiện thực. Chúng tôi tinh chỉnh tinh thần ngày lễ thành
+                    một kiệt tác khó quên cho gia đình bạn.</p>
                 <div style="display: flex; gap: 2rem;" class="reveal-item">
-                    <a href="#booking" class="btn btn-primary">THE EXPERIENCE</a>
+                    <a href="#booking" class="btn btn-primary">TRẢI NGHIỆM</a>
                     <a href="#services" class="btn"
-                        style="border: 1px solid var(--accent); color: var(--accent); background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);">OUR
-                        METHOD</a>
+                        style="border: 1px solid var(--accent); color: var(--accent); background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);">PHƯƠNG
+                        THỨC</a>
                 </div>
             </div>
 
             <!-- Decorations -->
             <img src="/assets/images/1.png" class="deco-bells animate-swing" alt="Golden Bells">
+            <img src="/assets/images/cherry.png" class="deco-cherry" alt="Christmas Cherries">
             <img src="/assets/images/5.png" class="deco-snowflake animate-spin-slow" alt="Crystal Snowflake">
 
             <!-- Pine Branch Overlays -->
@@ -149,35 +177,35 @@
             <img src="/assets/images/2.png" class="floating-bauble" alt="Ornate Bauble">
 
             <div style="text-align: center; margin-bottom: 8rem;">
-                <p class="magic-text" style="font-size: 1.8rem;">Elegance in Detail</p>
-                <h2 style="font-size: 4.5rem;" class="reveal-text">Mastering the Magic</h2>
+                <p class="magic-text" style="font-size: 1.8rem;">Sự Tinh Tế Trong Chi Tiết</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Làm Chủ Phép Thuật</h2>
             </div>
             <div class="features-grid">
                 <div class="glass-card animate-on-scroll">
                     <div class="image-icon-box">
                         <img src="/assets/images/bespoke.png" alt="Bespoke Visits">
                     </div>
-                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Bespoke Visits</h3>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Each performance is a
-                        unique script, woven with your family's personal traditions and secrets from the North Pole
-                        scrolls.</p>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Chuyến Thăm Riêng Tư</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Mỗi màn trình diễn là một
+                        kịch bản độc nhất, được dệt nên từ truyền thống gia đình bạn và những bí mật từ cuộn giấy Bắc
+                        Cực.</p>
                 </div>
                 <div class="glass-card animate-on-scroll">
                     <div class="image-icon-box">
                         <img src="/assets/images/invitation.png" alt="Gifts of Distinction">
                     </div>
-                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Gifts of Distinction</h3>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Hand-curated presentation
-                        that transforms the act of giving into a theatrical moment of pure, breathless wonder.</p>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Món Quà Đặc Biệt</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Cách trình bày được tuyển
+                        chọn kỹ lưỡng, biến hành động trao tặng thành khoảnh khắc sân khấu của sự ngạc nhiên tột độ.</p>
                 </div>
                 <div class="glass-card animate-on-scroll">
                     <div class="image-icon-box">
                         <img src="/assets/images/santa.png" alt="Cinematic Portraits">
                     </div>
-                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Cinematic Portraits</h3>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Not just photos—artistic
-                        captures that immortalize the visceral experience of childhood belief in its most beautiful
-                        light.</p>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Chân Dung Điện Ảnh</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Không chỉ là ảnh chụp—mà
+                        là những khoảnh khắc nghệ thuật bất tử hóa trải nghiệm niềm tin thời thơ ấu dưới ánh sáng đẹp
+                        nhất.</p>
                 </div>
             </div>
         </section>
@@ -187,27 +215,27 @@
             style="background: rgba(0,0,0,0.5); padding: 10rem 0; position: relative; overflow: hidden;">
             <img src="/assets/images/6.png" class="deco-candy" alt="Candy Cane">
             <div class="container">
-                <div
-                    style="text-align: left; margin-bottom: 8rem; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="gallery-header">
                     <div>
-                        <p class="magic-text" style="font-size: 1.8rem;">Visual Archives</p>
-                        <h2 style="font-size: 4.5rem;" class="reveal-text">The Gallery of <br>Wonders</h2>
+                        <p class="magic-text" style="font-size: 1.8rem;">Lưu Trữ Hình Ảnh</p>
+                        <h2 style="font-size: 4.5rem;" class="reveal-text">Thư Viện Của <br>Những Kỳ Quan</h2>
                     </div>
-                    <p style="max-width: 400px; color: var(--text-muted); font-size: 1.1rem;">A collection of moments
-                        captured within our magical estate, where every corner tells a holiday story.</p>
+                    <p style="max-width: 400px; color: var(--text-muted); font-size: 1.1rem;">Bộ sưu tập những khoảnh
+                        khắc được ghi lại trong điền trang ma thuật của chúng tôi, nơi mỗi góc nhỏ đều kể một câu chuyện
+                        Giáng sinh.</p>
                 </div>
 
                 <div class="gallery-grid">
                     <div class="gallery-item large animate-on-scroll">
                         <img src="/assets/images/workshop.png" alt="Santa's Workshop">
                         <div class="gallery-overlay">
-                            <p class="magic-text">Mechanical Wonders</p>
+                            <p class="magic-text">Kỳ Quan Cơ Khí</p>
                         </div>
                     </div>
                     <div class="gallery-item animate-on-scroll">
                         <img src="/assets/images/stables.png" alt="Reindeer Stables">
                         <div class="gallery-overlay">
-                            <p class="magic-text">Midnight Glimpse</p>
+                            <p class="magic-text">Thoáng Thấy Lúc Nửa Đêm</p>
                         </div>
                     </div>
                     <div class="gallery-item animate-on-scroll">
@@ -220,25 +248,103 @@
             </div>
         </section>
 
+        <!-- Luxury Postcard Studio -->
+        <section id="postcard-studio" class="container" style="padding: 10rem 0;">
+            <div style="text-align: center; margin-bottom: 8rem;">
+                <p class="magic-text" style="font-size: 1.8rem;">Cá Nhân Hóa Phép Màu</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Xưởng Tạo Thiệp Hoàng Gia</h2>
+            </div>
+
+            <div class="postcard-studio-grid">
+                <!-- Card Controls -->
+                <div class="glass-card animate-on-scroll" style="padding: 4rem;">
+                    <div style="margin-bottom: 3rem;">
+                        <label
+                            style="display: block; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1.5rem;">Gửi
+                            Đến Ai?</label>
+                        <input type="text" id="card-to" placeholder="Tên người nhận..."
+                            style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.02); border: none; border-bottom: 1px solid var(--accent); color: white; font-family: inherit; font-size: 1.2rem;">
+                    </div>
+                    <div style="margin-bottom: 3rem;">
+                        <label
+                            style="display: block; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1.5rem;">Email
+                            Người Nhận</label>
+                        <input type="email" id="card-email" placeholder="example@gmail.com"
+                            style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.02); border: none; border-bottom: 1px solid var(--accent); color: white; font-family: inherit; font-size: 1.2rem;">
+                    </div>
+                    <div style="margin-bottom: 4rem;">
+                        <label
+                            style="display: block; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1.5rem;">Lời
+                            Chúc Tận Tâm</label>
+                        <textarea id="card-message" placeholder="Viết điều kỳ diệu tại đây..." rows="4"
+                            style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.1); border-radius: 8px; color: white; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; resize: none;"></textarea>
+                    </div>
+                    <button id="mint-card-btn" class="btn btn-primary" style="width: 100%;">NIÊM PHONG THIỆP
+                        VÀNG</button>
+                </div>
+
+                <!-- Card Preview Area -->
+                <div class="animate-on-scroll">
+                    <div id="postcard-preview" class="glass-card postcard-preview-card">
+                        <!-- Card Background Image or Pattern -->
+                        <div class="postcard-bg"></div>
+                        <!-- Decorative Border -->
+                        <div class="postcard-inner-border"></div>
+
+                        <!-- Content -->
+                        <div class="postcard-content">
+                            <div>
+                                <p class="magic-text"
+                                    style="color: var(--accent); font-size: 1.2rem; margin-bottom: 1rem;">Gửi đến,</p>
+                                <h3 id="preview-to"
+                                    style="font-size: 3rem; color: var(--text-light); text-shadow: 0 0 20px rgba(212,175,55,0.4);">
+                                    Người Đặc Biệt</h3>
+                            </div>
+                            <p id="preview-message"
+                                style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.4rem; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 80%;">
+                                Hãy để phép màu của đêm Giáng Sinh soi sáng trái tim bạn...</p>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                                <img src="/assets/images/12a.png"
+                                    style="height: 60px; filter: grayscale(0.2) opacity(0.8);" alt="Seal">
+                                <p class="magic-text" style="font-size: 1rem; color: var(--accent);">Bắc Cực, 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Sealing Animation Elements -->
+                        <div id="postcard-seal-stamp" class="postcard-seal-stamp">
+                            <img src="/assets/images/12a.png" alt="Royal Seal">
+                        </div>
+                        <div id="postcard-success-overlay" class="postcard-success-overlay">
+                            <div class="success-content">
+                                <div class="check-icon">✔</div>
+                                <h4 class="magic-text">NIÊM PHONG THÀNH CÔNG</h4>
+                                <p>Thiệp đã được gửi về Bắc Cực!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- The Legacy Section -->
         <section id="story" style="background: rgba(212, 175, 55, 0.02); position: relative; overflow: hidden;">
             <div class="container"
                 style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 10rem; align-items: center;">
                 <div class="animate-on-scroll">
-                    <p class="magic-text" style="font-size: 1.8rem;">The Golden Thread</p>
+                    <p class="magic-text" style="font-size: 1.8rem;">Sợi Chỉ Vàng</p>
                     <h2 style="font-size: 5rem; margin-bottom: 4rem; line-height: 1; letter-spacing: -2px;"
-                        class="reveal-text">Crafting Eternal <br>Memories</h2>
+                        class="reveal-text">Chế Tác Ký Ức <br>Vĩnh Cửu</h2>
                     <ul style="list-style: none; display: flex; flex-direction: column; gap: 4rem;">
                         <li style="display: flex; gap: 2.5rem; align-items: start;">
                             <div
                                 style="background: var(--accent); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; font-weight: bold; font-size: 0.8rem;">
                                 01</div>
                             <div>
-                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Artisan
-                                    Portrayals</h4>
-                                <p style="color: var(--text-muted); font-size: 1.2rem;">Our performers are elite
-                                    character artists trained in the deep folklore and gentle grace required for a truly
-                                    convincing legacy.</p>
+                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Hóa Thân Nghệ
+                                    Thuật</h4>
+                                <p style="color: var(--text-muted); font-size: 1.2rem;">Các nghệ sĩ biểu diễn của chúng
+                                    tôi là những bậc thầy hóa thân, được đào tạo về văn hóa dân gian sâu sắc và phong
+                                    thái nhẹ nhàng cần thiết cho một di sản thực sự thuyết phục.</p>
                             </div>
                         </li>
                         <li style="display: flex; gap: 2.5rem; align-items: start;">
@@ -246,11 +352,11 @@
                                 style="background: var(--accent); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; font-weight: bold; font-size: 0.8rem;">
                                 02</div>
                             <div>
-                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Atmospheric
-                                    Seal</h4>
-                                <p style="color: var(--text-muted); font-size: 1.2rem;">From the authentic scents of
-                                    pine and cinnamon to the high-tensile silver bells, we create a total sensory
-                                    immersion.</p>
+                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Dấu Ấn Không
+                                    Gian</h4>
+                                <p style="color: var(--text-muted); font-size: 1.2rem;">Từ hương thơm chân thực của
+                                    thông và quế đến tiếng chuông bạc ngân vang, chúng tôi tạo ra một sự đắm chìm trọn
+                                    vẹn của các giác quan.</p>
                             </div>
                         </li>
                     </ul>
@@ -264,11 +370,53 @@
             </div>
         </section>
 
+        <!-- The Magical Process (Timeline) -->
+        <section id="process" class="container" style="position: relative; padding: 10rem 0;">
+            <div style="text-align: center; margin-bottom: 8rem;">
+                <p class="magic-text" style="font-size: 1.8rem;">Đằng Sau Bức Màn</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Hành Trình Phép Thuật</h2>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-item left animate-on-scroll">
+                    <div class="timeline-content glass-card">
+                        <span class="step-number">01</span>
+                        <h3>Gửi Thư Tín</h3>
+                        <p>Chúng tôi nhận được lá thư bí mật của bạn, chứa đựng những ý tưởng sơ khai về đêm Giáng Sinh
+                            trong mơ.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right animate-on-scroll">
+                    <div class="timeline-content glass-card">
+                        <span class="step-number">02</span>
+                        <h3>Chế Tác Kịch Bản</h3>
+                        <p>Đội ngũ yêu tinh biên kịch sẽ dệt nên một câu chuyện độc nhất, lồng ghép truyền thống gia
+                            đình bạn.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left animate-on-scroll">
+                    <div class="timeline-content glass-card">
+                        <span class="step-number">03</span>
+                        <h3>Phê Duyệt Hoàng Gia</h3>
+                        <p>Bạn xem xét từng chi tiết. Không có gì được tiến hành cho đến khi bạn hoàn toàn hài lòng.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right animate-on-scroll">
+                    <div class="timeline-content glass-card">
+                        <span class="step-number">04</span>
+                        <h3>Đêm Huyền Diệu</h3>
+                        <p>Khi chuông đồng hồ điểm, phép thuật bắt đầu. Một trải nghiệm nhập vai trọn vẹn tại chính ngôi
+                            nhà bạn.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- The Cast -->
         <section id="characters" class="container">
             <div style="text-align: center; margin-bottom: 8rem;">
-                <p class="magic-text" style="font-size: 1.8rem;">The North Pole Elite</p>
-                <h2 style="font-size: 4.5rem;" class="reveal-text">Meet the Guardians</h2>
+                <p class="magic-text" style="font-size: 1.8rem;">Tinh Hoa Bắc Cực</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Gặp Gỡ Những Người Hộ Mệnh</h2>
             </div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem;">
                 <div class="glass-card animate-on-scroll"
@@ -277,9 +425,9 @@
                         alt="Master Santa">
                     <div
                         style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
-                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">Master Santa</h4>
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">Ông Già Noel</h4>
                         <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
-                            LEGENDARY SPIRIT</p>
+                            LINH HỒN HUYỀN THOẠI</p>
                     </div>
                 </div>
                 <div class="glass-card animate-on-scroll"
@@ -288,9 +436,9 @@
                         alt="The Keeper">
                     <div
                         style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
-                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">The Keeper</h4>
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">Người Giữ Cửa</h4>
                         <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
-                            VIGILANT GUIDE</p>
+                            NGƯỜI DẪN ĐƯỜNG TẬN TỤY</p>
                     </div>
                 </div>
                 <div class="glass-card animate-on-scroll"
@@ -299,9 +447,48 @@
                         alt="Mrs. Claus">
                     <div
                         style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
-                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">The Matriarch</h4>
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">Bà Claus</h4>
                         <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
-                            KINDNESS & GRACE</p>
+                            SỰ DỊU DÀNG & ÂN CẦN</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Testimonials -->
+        <section id="testimonials" style="background: rgba(212, 175, 55, 0.03); padding: 10rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 8rem;">
+                    <p class="magic-text" style="font-size: 1.8rem;">Tiếng Vọng Hạnh Phúc</p>
+                    <h2 style="font-size: 4.5rem;" class="reveal-text">Lời Khen Từ Giới Thượng Lưu</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="glass-card testimonial-card animate-on-scroll">
+                        <div class="quote-icon">❝</div>
+                        <p class="testimonial-text">"Tôi chưa bao giờ thấy bọn trẻ tin tưởng mãnh liệt đến thế. Chi tiết
+                            đến mức kinh ngạc, từ bộ râu thật đến mùi hương của tuyết."</p>
+                        <div class="testimonial-author">
+                            <h4>Gia đình Nguyễn</h4>
+                            <span>Biệt thự Thảo Điền</span>
+                        </div>
+                    </div>
+                    <div class="glass-card testimonial-card animate-on-scroll" style="margin-top: 4rem;">
+                        <div class="quote-icon">❝</div>
+                        <p class="testimonial-text">"Không phải là một dịch vụ giải trí. Đây là một tác phẩm nghệ thuật
+                            sống động. Ông già Noel này... là thật."</p>
+                        <div class="testimonial-author">
+                            <h4>Bà Lê Thu Thảo</h4>
+                            <span>CEO, Royal Group</span>
+                        </div>
+                    </div>
+                    <div class="glass-card testimonial-card animate-on-scroll">
+                        <div class="quote-icon">❝</div>
+                        <p class="testimonial-text">"Sự đầu tư vào trang phục và diễn xuất thật phi thường. Một kỷ niệm
+                            vô giá cho buổi tiệc Giáng Sinh của công ty chúng tôi."</p>
+                        <div class="testimonial-author">
+                            <h4>Tập Đoàn Vingroup</h4>
+                            <span>Sự kiện thường niên</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,8 +501,125 @@
                     <img src="/assets/images/4.png" alt="Mystery Gift"
                         style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
-                <p class="magic-text" style="font-size: 1.5rem; margin-top: 3rem; text-align: center;">Unexpected
-                    Wonders Await... Click the Box</p>
+                <p class="magic-text" style="font-size: 1.5rem; margin-top: 3rem; text-align: center;">Điều Kỳ Diệu Bất
+                    Ngờ Đang Chờ... Hãy Mở Hộp Quà</p>
+            </div>
+        </section>
+
+        <!-- Gift Popup Modal -->
+        <div id="gift-modal" class="gift-modal-overlay">
+            <div class="glass-card gift-reveal-card">
+                <button class="close-gift">&times;</button>
+                <div class="gift-content">
+                    <p class="magic-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Quà Tặng Từ Ông Già Noel</p>
+                    <h3 id="gift-title" style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-light);">
+                        Món Quà Bí Ẩn</h3>
+                    <div id="gift-image-container" style="margin-bottom: 2rem;">
+                        <!-- Image injected via JS -->
+                    </div>
+                    <p id="gift-description" style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;">
+                        Bạn đã mở khóa một phước lành đặc biệt từ Bắc Cực.</p>
+                    <button class="btn btn-primary close-gift-action" style="margin-top: 2rem;">NHẬN NIỀM VUI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Magical FAQ -->
+        <section id="faq" class="container" style="padding-bottom: 5rem;">
+            <div style="text-align: center; margin-bottom: 6rem;">
+                <p class="magic-text" style="font-size: 1.5rem;">Những Bí Mật Được Bật Mí</p>
+                <h2 style="font-size: 3.5rem;" class="reveal-text">Câu Hỏi Thường Gặp</h2>
+            </div>
+            <div class="faq-grid" style="max-width: 800px; margin: 0 auto;">
+                <div class="glass-card faq-item animate-on-scroll">
+                    <div class="faq-question">
+                        <h3>Làm sao Ông già Noel đến được nếu nhà không có ống khói?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ông già Noel có một chiếc Chìa Khóa Phép Thuật đặc biệt có thể mở bất kỳ cánh cửa nào, nhưng
+                            chỉ vào đêm Giáng Sinh và chỉ dành cho những đứa trẻ ngoan.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass-card animate-on-scroll">
+                    <div class="faq-question">
+                        <h3>Tuần lộc có thực sự đi cùng không?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Tuần lộc thường đậu trên mái nhà để giữ bí mật. Tuy nhiên, nếu bạn lắng nghe kỹ, bạn có thể
+                            nghe thấy tiếng chuông leng keng từ xa.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass-card animate-on-scroll">
+                    <div class="faq-question">
+                        <h3>Chúng tôi cần chuẩn bị gì cho chuyến thăm?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chỉ cần chuẩn bị một chút bánh quy, một ly sữa, và quan trọng nhất là một trái tim tràn đầy
+                            niềm tin vào phép màu.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass-card animate-on-scroll">
+                    <div class="faq-question">
+                        <h3>Buổi gặp gỡ kéo dài bao lâu?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Mỗi trải nghiệm kéo dài khoảng 45-60 phút, đủ để kể chuyện, tặng quà, chụp ảnh và chia sẻ
+                            những khoảnh khắc ấm áp. Chất lượng hơn số lượng.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Lightbox Modal -->
+        <div id="gallery-modal" class="gallery-modal-overlay">
+            <div class="gallery-modal-content glass-card">
+                <button class="close-gallery">&times;</button>
+                <div class="gallery-full-image">
+                    <img src="" id="lightbox-img" alt="Gallery Full View">
+                </div>
+                <div class="gallery-modal-info">
+                    <p class="magic-text" id="lightbox-caption"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Naughty or Nice Detector -->
+        <section id="naughty-nice" class="container" style="padding: 10rem 0;">
+            <div style="text-align: center; margin-bottom: 6rem;">
+                <p class="magic-text" style="font-size: 1.5rem;">Cổng Dữ Liệu Bắc Cực</p>
+                <h2 style="font-size: 3.5rem;" class="reveal-text">Máy Quét Ngoan Hay Hư</h2>
+            </div>
+            <div class="glass-card animate-on-scroll"
+                style="max-width: 600px; margin: 0 auto; padding: 4rem; text-align: center;">
+                <div id="detector-input-phase">
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Nhập tên của bạn để hệ thống kiểm tra danh
+                        sách của Ông Già Noel.</p>
+                    <input type="text" id="detector-name" placeholder="Tên của bé..."
+                        style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.3); border: 1px solid var(--accent); color: white; border-radius: 8px; font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 2rem; text-align: center;">
+                    <button id="btn-scan" class="btn btn-primary" style="width: 100%;">QUÉT NGAY</button>
+                </div>
+
+                <div id="detector-scanning-phase" style="display: none;">
+                    <div class="radar-scan"></div>
+                    <p id="scan-status" class="magic-text" style="font-size: 1.5rem; margin-top: 2rem;">Đang kết nối vệ
+                        tinh tuần lộc...</p>
+                </div>
+
+                <div id="detector-result-phase" style="display: none;">
+                    <div id="result-stamp"
+                        style="font-family: 'Mountains of Christmas', cursive; font-size: 5rem; color: #4ade80; text-shadow: 0 0 30px #4ade80; border: 5px solid #4ade80; display: inline-block; padding: 1rem 3rem; transform: rotate(-10deg); margin-bottom: 2rem;">
+                        BÉ NGOAN
+                    </div>
+                    <h3 id="result-name" style="font-size: 2rem; margin-bottom: 1rem;"></h3>
+                    <p style="color: var(--text-muted);">Chúc mừng! Ông già Noel rất tự hào về bạn.</p>
+                    <button id="btn-reset-scan" class="btn btn-secondary"
+                        style="margin-top: 2rem; background: transparent; border: 1px solid var(--text-muted);">KIỂM TRA
+                        NGƯỜI KHÁC</button>
+                </div>
             </div>
         </section>
 
@@ -325,36 +629,35 @@
             <div class="container" style="max-width: 1000px;">
                 <div class="glass-card animate-on-scroll"
                     style="text-align: center; border-color: var(--accent); padding: 6rem;">
-                    <p class="magic-text" style="font-size: 2.2rem;">The Season Awaits</p>
-                    <h2 style="margin-bottom: 5rem; font-size: 4rem;" class="reveal-text">Commission Your Miracle</h2>
+                    <p class="magic-text" style="font-size: 2.2rem;">Mùa Lễ Hội Đang Chờ Đón</p>
+                    <h2 style="margin-bottom: 5rem; font-size: 4rem;" class="reveal-text">Đặt Chỗ Cho Điều Kỳ Diệu</h2>
                     <form style="display: grid; gap: 3rem; text-align: left;" id="booking-form">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
                             <div>
                                 <label
-                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">The
-                                    Service</label>
+                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">Dịch
+                                    Vụ</label>
                                 <select
                                     style="width: 100%; padding: 1.4rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: white; border-radius: 0; border-bottom: 2px solid var(--accent); font-family: inherit; font-size: 1.1rem; appearance: none;">
-                                    <option>Artisan Home Performance</option>
-                                    <option>Bespoke Corporate Event</option>
-                                    <option>Private Winter Gala</option>
+                                    <option>Biểu Diễn Tại Nhà Nghệ Thuật</option>
+                                    <option>Sự Kiện Doanh Nghiệp</option>
+                                    <option>Dạ Tiệc Mùa Đông Riêng Tư</option>
                                 </select>
                             </div>
                             <div>
                                 <label
-                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">The
-                                    Date</label>
-                                <input type="text" id="booking-date" placeholder="Select your date..."
+                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">Ngày</label>
+                                <input type="text" id="booking-date" placeholder="Chọn ngày..."
                                     style="width: 100%; padding: 1.4rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: white; border-radius: 0; border-bottom: 2px solid var(--accent); font-family: inherit; font-size: 1.1rem;">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary"
-                            style="padding: 1.6rem; font-size: 1.3rem; margin-top: 2rem; border-radius: 0; width: 100%;">RESERVE
-                            YOUR MOMENT</button>
+                            style="padding: 1rem 2rem; font-size: 1.1rem; margin-top: 2rem; width: 100%;">GIỮ CHỖ KHOẢNH
+                            KHẮC CỦA BẠN</button>
                     </form>
                     <div id="confirmation-msg"
                         style="display: none; margin-top: 3rem; color: var(--accent); font-family: 'Mountains of Christmas', cursive; font-size: 2.5rem;">
-                        Magic Request Received. Santa is checking his list...
+                        Đã Nhận Yêu Cầu Phép Thuật. Ông già Noel đang kiểm tra danh sách...
                     </div>
                 </div>
             </div>
@@ -365,20 +668,24 @@
         style="padding: 10rem 0; background: #000; text-align: center; border-top: 1px solid var(--glass-border); position: relative;">
         <div class="container">
             <a href="#" class="logo"
-                style="margin-bottom: 5rem; display: block; font-size: 5rem; letter-spacing: -2px;">SANTA MAGIC</a>
+                style="margin-bottom: 5rem; display: block; font-size: 5rem; letter-spacing: -2px;">PHÉP THUẬT SANTA</a>
             <div style="display: flex; justify-content: center; gap: 6rem; margin-bottom: 5rem;">
                 <a href="#"
-                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">MUSEUM</a>
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">BẢO
+                    TÀNG</a>
                 <a href="#"
-                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">ARCHIVES</a>
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">LƯU
+                    TRỮ</a>
                 <a href="#"
-                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">CONCIERGE</a>
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">DỊCH
+                    VỤ</a>
             </div>
-            <p style="color: var(--text-muted); font-size: 1rem; opacity: 0.4; letter-spacing: 1px;">&copy; MMXXV SANTA
-                MAGIC. CUSTODIANS OF WONDER.</p>
+            <p style="color: var(--text-muted); font-size: 1rem; opacity: 0.4; letter-spacing: 1px;">&copy; 2025 SANTA
+                MAGIC. NGƯỜI GIỮ GÌN ĐIỀU KỲ DIỆU.</p>
+            <p class="magic-text" style="font-size: 1.2rem; margin-top: 1rem; opacity: 0.8;">Hứa Minh Luân</p>
             <h2 class="magic-text"
-                style="font-size: 10rem; margin-top: 8rem; color: var(--accent); opacity: 0.02; user-select: none;">PURE
-                BELIEF</h2>
+                style="font-size: 10rem; margin-top: 8rem; color: var(--accent); opacity: 0.02; user-select: none;">NIỀM
+                TIN THUẦN KHIẾT</h2>
         </div>
     </footer>
 
