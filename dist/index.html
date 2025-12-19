@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symphony of Christmas | Artisan Holiday Experience</title>
+    <meta name="description"
+        content="Elite Santa Claus experiences. Artisan holiday magic for the most discerning families.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Mountains+of+Christmas:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&display=swap"
+        rel="stylesheet">
+    <!-- Flatpickr (Custom Datepicker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- GSAP Premium stack -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BM9vZ_7V.css">
+</head>
+
+<body>
+    <!-- Premium Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <h2 class="magic-text" style="font-size: 3rem;">SANTA MAGIC</h2>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+            <p style="letter-spacing: 5px; font-size: 0.8rem; margin-top: 1rem; opacity: 0.5;">PREPARING THE MIRACLE</p>
+        </div>
+    </div>
+
+    <!-- Premium Interactive Elements -->
+    <div id="magic-cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <nav id="navbar">
+        <a href="#" class="logo">SANTA MAGIC</a>
+        <ul class="nav-links">
+            <li><a href="#services">The Art</a></li>
+            <li><a href="#gallery">The Gallery</a></li>
+            <li><a href="#characters">The Cast</a></li>
+        </ul>
+        <div style="display: flex; align-items: center; gap: 2rem;">
+            <div id="music-toggle" class="music-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
+                </svg>
+            </div>
+            <a href="#booking" class="btn btn-primary" style="padding: 1rem 2rem;">RESERVE</a>
+        </div>
+    </nav>
+
+    <div class="snow-container" id="snow-container"></div>
+
+    <!-- Flying Santa Container -->
+    <div id="flying-santa-container">
+        <div id="flying-santa">
+            <img src="/assets/santa_fly-Tad1Hdqm.png" alt="Flying Santa and Reindeer"
+                style="height: 150px; opacity: 0.9; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6));">
+        </div>
+    </div>
+
+    <!-- Wish Sender FAB -->
+    <div id="wish-fab" class="wish-fab">
+        <div class="wish-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        </div>
+        <div class="wish-tooltip">Make a Wish</div>
+    </div>
+
+    <!-- Wish Modal -->
+    <div id="wish-modal" class="wish-modal-overlay">
+        <div class="glass-card wish-card">
+            <button class="close-wish">&times;</button>
+            <div class="wish-header">
+                <p class="magic-text" style="font-size: 1.2rem;">Direct Line to Santa</p>
+                <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Make a Wish</h3>
+            </div>
+            <textarea id="wish-input" placeholder="Dear Santa, this year I wish for..." rows="4"></textarea>
+            <button id="send-wish-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">SEND TO NORTH
+                POLE</button>
+        </div>
+        <div id="wish-success-msg" class="wish-success">
+            <h3 class="magic-text" style="font-size: 3rem;">Wish Sent!</h3>
+            <p>The elves are processing your request.</p>
+        </div>
+    </div>
+
+    <main>
+        <!-- Cinematic Hero Section -->
+        <section class="hero">
+            <img src="/assets/hero-BThxFkrk.png" class="hero-img-bg" alt="Lone pine in snowy field">
+            <div class="container hero-content">
+                <div class="countdown-wrapper reveal-item" style="margin-bottom: 2rem;">
+                    <p class="magic-text" style="font-size: 1.2rem; margin-bottom: 0.5rem; opacity: 0.8;">The Magic
+                        Arrives In</p>
+                    <div id="countdown" style="display: flex; gap: 2rem; font-family: 'Playfair Display', serif;">
+                        <div class="count-item"><span id="days">00</span><small>DAYS</small></div>
+                        <div class="count-item"><span id="hours">00</span><small>HOURS</small></div>
+                        <div class="count-item"><span id="minutes">00</span><small>MINS</small></div>
+                        <div class="count-item"><span id="seconds">00</span><small>SECS</small></div>
+                    </div>
+                </div>
+                <h1 class="reveal-text" style="font-size: 7.5rem;"><span class="gold-gradient">ARTISAN</span> <br> <span
+                        style="color: var(--text-light);">HOLIDAY</span></h1>
+                <p class="reveal-item"
+                    style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; max-width: 700px; margin-bottom: 4rem; color: rgba(255,255,255,0.8); line-height: 1.4;">
+                    Step into a world where legends come to life. We refine the holiday spirit into an unforgettable
+                    masterpiece for your family.</p>
+                <div style="display: flex; gap: 2rem;" class="reveal-item">
+                    <a href="#booking" class="btn btn-primary">THE EXPERIENCE</a>
+                    <a href="#services" class="btn"
+                        style="border: 1px solid var(--accent); color: var(--accent); background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);">OUR
+                        METHOD</a>
+                </div>
+            </div>
+
+            <!-- Decorations -->
+            <img src="/assets/1-w9TPp8DZ.png" class="deco-bells animate-swing" alt="Golden Bells">
+            <img src="/assets/5-CroK3vLQ.png" class="deco-snowflake animate-spin-slow" alt="Crystal Snowflake">
+
+            <!-- Pine Branch Overlays -->
+            <img src="https://www.pngkey.com/png/full/15-155458_fir-tree-branches-png-branch-of-christmas-tree.png"
+                class="branch-overlay branch-tl" alt="pine branch top left">
+            <img src="https://www.pngkey.com/png/full/15-155458_fir-tree-branches-png-branch-of-christmas-tree.png"
+                class="branch-overlay branch-tr" alt="pine branch top right">
+
+            <!-- Bottom Border -->
+            <img src="/assets/3-B75Q6dJD.png" class="hero-border-bottom" alt="Snowy Pine Border">
+        </section>
+
+        <!-- Art of Services -->
+        <section id="services" class="container" style="position: relative;">
+            <!-- Floating Bauble -->
+            <img src="/assets/2-D2v181kr.png" class="floating-bauble" alt="Ornate Bauble">
+
+            <div style="text-align: center; margin-bottom: 8rem;">
+                <p class="magic-text" style="font-size: 1.8rem;">Elegance in Detail</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Mastering the Magic</h2>
+            </div>
+            <div class="features-grid">
+                <div class="glass-card animate-on-scroll">
+                    <div class="image-icon-box">
+                        <img src="/assets/bespoke-DzwzKRjY.png" alt="Bespoke Visits">
+                    </div>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Bespoke Visits</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Each performance is a
+                        unique script, woven with your family's personal traditions and secrets from the North Pole
+                        scrolls.</p>
+                </div>
+                <div class="glass-card animate-on-scroll">
+                    <div class="image-icon-box">
+                        <img src="/assets/invitation-BMi02WsS.png" alt="Gifts of Distinction">
+                    </div>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Gifts of Distinction</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Hand-curated presentation
+                        that transforms the act of giving into a theatrical moment of pure, breathless wonder.</p>
+                </div>
+                <div class="glass-card animate-on-scroll">
+                    <div class="image-icon-box">
+                        <img src="/assets/santa-DeJklRa_.png" alt="Cinematic Portraits">
+                    </div>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 2rem;">Cinematic Portraits</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Not just photos—artistic
+                        captures that immortalize the visceral experience of childhood belief in its most beautiful
+                        light.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery of Wonders -->
+        <section id="gallery"
+            style="background: rgba(0,0,0,0.5); padding: 10rem 0; position: relative; overflow: hidden;">
+            <img src="/assets/6-JpXcioOl.png" class="deco-candy" alt="Candy Cane">
+            <div class="container">
+                <div
+                    style="text-align: left; margin-bottom: 8rem; display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <p class="magic-text" style="font-size: 1.8rem;">Visual Archives</p>
+                        <h2 style="font-size: 4.5rem;" class="reveal-text">The Gallery of <br>Wonders</h2>
+                    </div>
+                    <p style="max-width: 400px; color: var(--text-muted); font-size: 1.1rem;">A collection of moments
+                        captured within our magical estate, where every corner tells a holiday story.</p>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item large animate-on-scroll">
+                        <img src="/assets/workshop-CWSdwcB4.png" alt="Santa's Workshop">
+                        <div class="gallery-overlay">
+                            <p class="magic-text">Mechanical Wonders</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item animate-on-scroll">
+                        <img src="/assets/stables-B8W327eA.png" alt="Reindeer Stables">
+                        <div class="gallery-overlay">
+                            <p class="magic-text">Midnight Glimpse</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item animate-on-scroll">
+                        <img src="/assets/invitation-BMi02WsS.png" alt="Invitation detail">
+                    </div>
+                    <div class="gallery-item wide animate-on-scroll">
+                        <img src="/assets/hero-BThxFkrk.png" alt="The Grand Tree">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Legacy Section -->
+        <section id="story" style="background: rgba(212, 175, 55, 0.02); position: relative; overflow: hidden;">
+            <div class="container"
+                style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 10rem; align-items: center;">
+                <div class="animate-on-scroll">
+                    <p class="magic-text" style="font-size: 1.8rem;">The Golden Thread</p>
+                    <h2 style="font-size: 5rem; margin-bottom: 4rem; line-height: 1; letter-spacing: -2px;"
+                        class="reveal-text">Crafting Eternal <br>Memories</h2>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 4rem;">
+                        <li style="display: flex; gap: 2.5rem; align-items: start;">
+                            <div
+                                style="background: var(--accent); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; font-weight: bold; font-size: 0.8rem;">
+                                01</div>
+                            <div>
+                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Artisan
+                                    Portrayals</h4>
+                                <p style="color: var(--text-muted); font-size: 1.2rem;">Our performers are elite
+                                    character artists trained in the deep folklore and gentle grace required for a truly
+                                    convincing legacy.</p>
+                            </div>
+                        </li>
+                        <li style="display: flex; gap: 2.5rem; align-items: start;">
+                            <div
+                                style="background: var(--accent); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; font-weight: bold; font-size: 0.8rem;">
+                                02</div>
+                            <div>
+                                <h4 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--accent);">Atmospheric
+                                    Seal</h4>
+                                <p style="color: var(--text-muted); font-size: 1.2rem;">From the authentic scents of
+                                    pine and cinnamon to the high-tensile silver bells, we create a total sensory
+                                    immersion.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card animate-on-scroll" style="padding: 1rem; position: relative;">
+                    <div style="border: 1px solid var(--accent); padding: 5px; height: 750px; overflow: hidden;">
+                        <img src="/assets/hero-BThxFkrk.png"
+                            style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="Legacy Scene">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Cast -->
+        <section id="characters" class="container">
+            <div style="text-align: center; margin-bottom: 8rem;">
+                <p class="magic-text" style="font-size: 1.8rem;">The North Pole Elite</p>
+                <h2 style="font-size: 4.5rem;" class="reveal-text">Meet the Guardians</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem;">
+                <div class="glass-card animate-on-scroll"
+                    style="padding: 0; overflow: hidden; position: relative; height: 650px;">
+                    <img src="/assets/santa-DeJklRa_.png" style="width: 100%; height: 100%; object-fit: cover;"
+                        alt="Master Santa">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">Master Santa</h4>
+                        <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
+                            LEGENDARY SPIRIT</p>
+                    </div>
+                </div>
+                <div class="glass-card animate-on-scroll"
+                    style="padding: 0; overflow: hidden; position: relative; height: 650px;">
+                    <img src="/assets/keeper-B0zgzOIy.png" style="width: 100%; height: 100%; object-fit: cover;"
+                        alt="The Keeper">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">The Keeper</h4>
+                        <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
+                            VIGILANT GUIDE</p>
+                    </div>
+                </div>
+                <div class="glass-card animate-on-scroll"
+                    style="padding: 0; overflow: hidden; position: relative; height: 650px;">
+                    <img src="/assets/matriarch-Bvp7Hert.png" style="width: 100%; height: 100%; object-fit: cover;"
+                        alt="Mrs. Claus">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,1), transparent);">
+                        <h4 style="color: white; margin-bottom: 0.8rem; font-size: 2.2rem;">The Matriarch</h4>
+                        <p style="color: var(--accent); font-size: 1rem; font-weight: bold; letter-spacing: 3px;">
+                            KINDNESS & GRACE</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Gift Section -->
+        <section class="gift-section animate-on-scroll">
+            <div class="gift-box-container">
+                <div id="gift-box">
+                    <img src="/assets/4-DW6jDizz.png" alt="Mystery Gift"
+                        style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <p class="magic-text" style="font-size: 1.5rem; margin-top: 3rem; text-align: center;">Unexpected
+                    Wonders Await... Click the Box</p>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking"
+            style="background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('/assets/invitation-BMi02WsS.png') center/cover fixed;">
+            <div class="container" style="max-width: 1000px;">
+                <div class="glass-card animate-on-scroll"
+                    style="text-align: center; border-color: var(--accent); padding: 6rem;">
+                    <p class="magic-text" style="font-size: 2.2rem;">The Season Awaits</p>
+                    <h2 style="margin-bottom: 5rem; font-size: 4rem;" class="reveal-text">Commission Your Miracle</h2>
+                    <form style="display: grid; gap: 3rem; text-align: left;" id="booking-form">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+                            <div>
+                                <label
+                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">The
+                                    Service</label>
+                                <select
+                                    style="width: 100%; padding: 1.4rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: white; border-radius: 0; border-bottom: 2px solid var(--accent); font-family: inherit; font-size: 1.1rem; appearance: none;">
+                                    <option>Artisan Home Performance</option>
+                                    <option>Bespoke Corporate Event</option>
+                                    <option>Private Winter Gala</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label
+                                    style="display: block; font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;">The
+                                    Date</label>
+                                <input type="text" id="booking-date" placeholder="Select your date..."
+                                    style="width: 100%; padding: 1.4rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: white; border-radius: 0; border-bottom: 2px solid var(--accent); font-family: inherit; font-size: 1.1rem;">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"
+                            style="padding: 1.6rem; font-size: 1.3rem; margin-top: 2rem; border-radius: 0; width: 100%;">RESERVE
+                            YOUR MOMENT</button>
+                    </form>
+                    <div id="confirmation-msg"
+                        style="display: none; margin-top: 3rem; color: var(--accent); font-family: 'Mountains of Christmas', cursive; font-size: 2.5rem;">
+                        Magic Request Received. Santa is checking his list...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="padding: 10rem 0; background: #000; text-align: center; border-top: 1px solid var(--glass-border); position: relative;">
+        <div class="container">
+            <a href="#" class="logo"
+                style="margin-bottom: 5rem; display: block; font-size: 5rem; letter-spacing: -2px;">SANTA MAGIC</a>
+            <div style="display: flex; justify-content: center; gap: 6rem; margin-bottom: 5rem;">
+                <a href="#"
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">MUSEUM</a>
+                <a href="#"
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">ARCHIVES</a>
+                <a href="#"
+                    style="color: var(--text-light); text-decoration: none; font-size: 1.1rem; letter-spacing: 3px; font-weight: 300;">CONCIERGE</a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 1rem; opacity: 0.4; letter-spacing: 1px;">&copy; MMXXV SANTA
+                MAGIC. CUSTODIANS OF WONDER.</p>
+            <h2 class="magic-text"
+                style="font-size: 10rem; margin-top: 8rem; color: var(--accent); opacity: 0.02; user-select: none;">PURE
+                BELIEF</h2>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
