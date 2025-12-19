@@ -272,57 +272,57 @@ const initGiftBox = () => {
         {
             title: "Tấm Vé Vàng",
             desc: "Ưu tiên đặt lịch gặp ông già Noel. Bạn hiện là người đầu tiên trong danh sách.",
-            img: "/assets/images/1a.png"
+            img: "assets/images/1a.png"
         },
         {
             title: "Chìa Khóa Thần Kỳ Của Santa",
             desc: "Chiếc chìa khóa huyền thoại mở cửa trái tim đón nhận tinh thần Giáng Sinh.",
-            img: "/assets/images/2a.png"
+            img: "assets/images/2a.png"
         },
         {
             title: "Quả Cầu Tuyết Bắc Cực",
             desc: "Một thế giới kỳ diệu thu nhỏ. Hãy lắc nhẹ để thấy tuyết rơi phép thuật.",
-            img: "/assets/images/3a.png"
+            img: "assets/images/3a.png"
         },
         {
             title: "Chiếc Chuông Của Niềm Tin",
             desc: "Nó chỉ ngân vang cho những ai thực sự tin tưởng. Bạn có nghe thấy không?",
-            img: "/assets/images/4a.png"
+            img: "assets/images/4a.png"
         },
         {
             title: "Cuộn Giấy Danh Sách Ngoan",
             desc: "Xác nhận chính thức từ chính Ông Già Noel. Bạn đã có tên trong danh sách!",
-            img: "/assets/images/5a.png"
+            img: "assets/images/5a.png"
         },
         {
             title: "Cacao Của Bà Claus",
             desc: "Một lọ hỗn hợp sô cô la hảo hạng, được sưởi ấm bằng tình yêu vô điều kiện.",
-            img: "/assets/images/6a.png"
+            img: "assets/images/6a.png"
         },
         {
             title: "Tàu Tốc Hành Lúc Nửa Đêm",
             desc: "Kỷ vật cổ điển nhắc nhở bạn rằng hành trình chính là đích đến.",
-            img: "/assets/images/7a.png"
+            img: "assets/images/7a.png"
         },
         {
             title: "Túi Nhung Đỏ",
             desc: "Được dệt bằng những giấc mơ và sẵn sàng để đong đầy niềm vui.",
-            img: "/assets/images/8a.png"
+            img: "assets/images/8a.png"
         },
         {
             title: "Búa Của Yêu Tinh",
             desc: "Công cụ sáng tạo từ xưởng chế tác đồ chơi bậc thầy.",
-            img: "/assets/images/9a.png"
+            img: "assets/images/9a.png"
         },
         {
             title: "Ngôi Sao Pha Lê",
             desc: "Ánh sáng dẫn đường đặt trên đỉnh cây thông, tỏa sáng niềm hy vọng.",
-            img: "/assets/images/10a.png"
+            img: "assets/images/10a.png"
         },
         {
             title: "Cà Rốt Thần Kỳ",
             desc: "Món ăn phép thuật tiếp thêm sức mạnh bay lượn cho những chú tuần lộc.",
-            img: "/assets/images/11a.png"
+            img: "assets/images/11a.png"
         }
     ];
 
@@ -870,9 +870,13 @@ const initNorthPoleStatus = () => {
 
     // Toggle Minimize/Expand by clicking the box
     const container = document.getElementById('north-pole-status');
+    const toggleIcon = document.getElementById('status-toggle-icon');
     if (container) {
         container.addEventListener('click', () => {
-            container.classList.toggle('minimized');
+            const isMinimized = container.classList.toggle('minimized');
+            if (toggleIcon) {
+                toggleIcon.innerText = isMinimized ? '▼' : '▲';
+            }
         });
     }
 };

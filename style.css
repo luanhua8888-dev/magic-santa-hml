@@ -56,7 +56,7 @@ body::before {
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 20000;
     box-shadow: 0 0 15px var(--accent);
     transform: translate(-50%, -50%);
 }
@@ -68,7 +68,7 @@ body::before {
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 19999;
     transform: translate(-50%, -50%);
     transition: width 0.3s, height 0.3s, background 0.3s, border 0.3s;
 }
@@ -1877,7 +1877,7 @@ nav.ui-hidden .logo:hover {
     color: var(--accent);
     letter-spacing: 2px;
     white-space: nowrap;
-    /* Force single line */
+    width: 100%;
 }
 
 #north-pole-status:not(.minimized) .status-indicator {
