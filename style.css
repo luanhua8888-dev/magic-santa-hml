@@ -78,16 +78,16 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: 'Mountains of Christmas', cursive;
+    font-family: 'Charm', cursive;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .magic-text {
-    font-family: 'Mountains of Christmas', cursive;
+    font-family: 'Charm', cursive;
     color: var(--accent);
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
@@ -127,7 +127,7 @@ nav.scrolled {
 }
 
 .logo {
-    font-family: 'Mountains of Christmas', cursive;
+    font-family: 'Charm', cursive;
     font-size: 2.5rem;
     color: var(--accent);
     text-decoration: none;
@@ -159,7 +159,7 @@ nav.scrolled {
 .nav-links a {
     text-decoration: none;
     color: var(--text-light);
-    font-family: 'Mountains of Christmas', cursive;
+    font-family: 'Charm', cursive;
     /* Updated to match theme */
     font-weight: 600;
     /* Bold enough to be readable */
@@ -2047,17 +2047,68 @@ nav.ui-hidden .logo:hover {
 .postcard-content {
     position: relative;
     z-index: 3;
-    padding: 4rem;
+    padding: 3rem 4rem;
+    /* Reduced vertical padding */
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+#preview-to {
+    font-size: 2.8rem;
+    color: var(--text-light);
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    line-height: 1.2;
+    word-break: break-word;
+    /* Prevent long names from breaking layout */
+}
+
+#preview-message {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    max-width: 90%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Limit message lines on preview to prevent overflow */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 @media (max-width: 1024px) {
     .postcard-studio-grid {
         grid-template-columns: 1fr;
         gap: 4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .postcard-content {
+        padding: 2rem;
+        /* Half padding for mobile */
+    }
+
+    #preview-to {
+        font-size: 1.8rem;
+        /* Smaller title on mobile */
+    }
+
+    #preview-message {
+        font-size: 1rem;
+        /* Smaller message on mobile */
+        max-width: 100%;
+        -webkit-line-clamp: 4;
+        /* Allow one more line if smaller font */
+    }
+
+    .postcard-inner-border {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
     }
 }
 

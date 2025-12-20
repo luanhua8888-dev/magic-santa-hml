@@ -327,13 +327,23 @@ const initGiftBox = () => {
     ];
 
     const openGift = () => {
-        // Select random gift
-        const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+        // Weighted random selection
+        // Increase probability for 11a.png (index 10)
+        let selectedGift;
+        const rand = Math.random();
+
+        if (rand < 0.5) {
+            // 50% chance for Cà Rốt Thần Kỳ (11a.png)
+            selectedGift = gifts[10];
+        } else {
+            // 50% chance for any other gift (including 11a.png again potentially)
+            selectedGift = gifts[Math.floor(Math.random() * gifts.length)];
+        }
 
         // Populate Modal
-        giftTitle.innerText = randomGift.title;
-        giftDesc.innerText = randomGift.desc;
-        giftImgContainer.innerHTML = `<img src="${randomGift.img}" alt="${randomGift.title}">`;
+        giftTitle.innerText = selectedGift.title;
+        giftDesc.innerText = selectedGift.desc;
+        giftImgContainer.innerHTML = `<img src="${selectedGift.img}" alt="${selectedGift.title}">`;
 
         // Open Modal
         modal.classList.add('active');
@@ -1026,13 +1036,29 @@ window.addEventListener('scroll', () => {
 // Preloader Removal - Robust Method
 const removePreloader = () => {
     const preloader = document.getElementById('preloader');
-    if (preloader && preloader.style.display !== 'none') {
+    if (!preloader || preloader.style.display === 'none') return;
+
+    // Wait for all images to be loaded
+    const images = document.querySelectorAll('img');
+    let loadedCount = 0;
+    const totalImages = images.length;
+
+    const onImageLoaded = () => {
+        loadedCount++;
+        if (loadedCount >= totalImages) {
+            fadeOutPreloader();
+        }
+    };
+
+    const fadeOutPreloader = () => {
         gsap.to(preloader, {
             opacity: 0,
             duration: 1,
             ease: 'power2.inOut',
             onComplete: () => {
                 preloader.style.display = 'none';
+
+                // Initialize all components
                 initNavToggle();
                 initAnimations();
                 initCountdown();
@@ -1049,15 +1075,38 @@ const removePreloader = () => {
                 initNorthPoleStatus();
                 initGalleryLightbox();
                 initPostcardStudio();
+
+                // CRITICAL: Refresh ScrollTrigger after all initializations and layout shifts
+                setTimeout(() => {
+                    ScrollTrigger.refresh();
+                    console.log("ScrollTrigger Refreshed");
+                }, 100);
+            }
+        });
+    };
+
+    if (totalImages === 0) {
+        fadeOutPreloader();
+    } else {
+        images.forEach(img => {
+            if (img.complete) {
+                onImageLoaded();
+            } else {
+                img.addEventListener('load', onImageLoaded);
+                img.addEventListener('error', onImageLoaded); // Count errors too to avoid blocking
             }
         });
     }
 };
 
-// Try to remove on load
-window.addEventListener('load', removePreloader);
+// Handle load events safely
+if (document.readyState === 'complete') {
+    removePreloader();
+} else {
+    window.addEventListener('load', removePreloader);
+}
 
-// Fallback safety timeout (2s)
+// Fallback safety timeout (Increased to 10s for slow assets)
 setTimeout(() => {
     removePreloader();
-}, 2000);
+}, 10000);
