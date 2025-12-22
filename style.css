@@ -2211,3 +2211,62 @@ nav.ui-hidden .logo:hover {
     font-size: 1.1rem;
     opacity: 0.8;
 }
+
+/* =========================================
+   PERFORMANCE OPTIMIZATIONS (ANDROID/MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* 1. Disable Backdrop Filter (Huge GPU Hog) */
+    .glass-card,
+    nav.scrolled,
+    .gallery-overlay,
+    .flatpickr-calendar,
+    #wish-modal,
+    #gift-modal,
+    .postcard-preview-card,
+    .timeline-content {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(10, 12, 10, 0.95) !important;
+        /* Solid fallback */
+        box-shadow: none !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    }
+
+    /* 2. Remove Expensive Shadows & Filters */
+    .snowflake {
+        box-shadow: none !important;
+        filter: none !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+        /* Flat color instead of gradient */
+    }
+
+    .magic-text {
+        text-shadow: none !important;
+        /* Text shadow is expensive on some renderers */
+    }
+
+    /* 3. Disable Grain Overlay */
+    body::before {
+        display: none !important;
+    }
+
+    /* 4. Simplify Animations */
+    .glass-card:hover {
+        transform: none !important;
+    }
+
+    /* 5. Optimize Images/Gradients */
+    .hero-img-bg {
+        filter: brightness(0.6) !important;
+        /* Simplify filter chain */
+    }
+
+    /* 6. Hardware Acceleration Hints */
+    .snowflake,
+    .magic-dust {
+        will-change: transform, opacity;
+        transform: translateZ(0);
+    }
+}

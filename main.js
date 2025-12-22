@@ -437,6 +437,8 @@ const initMusic = () => {
 
 // 8. Magic Cursor Trail
 const initMagicCursor = () => {
+    if (isMobile) return; // Completely disable on mobile for performance
+
     const cursor = document.getElementById('magic-cursor');
     const follower = document.getElementById('cursor-follower');
 
@@ -498,6 +500,7 @@ const initMagicCursor = () => {
 
 // 9. 3D Tilt Effect for Glass Cards
 const initCardTilt = () => {
+    if (isMobile) return; // Disable tilt on mobile
     const cards = document.querySelectorAll('.glass-card');
 
     cards.forEach(card => {
@@ -633,6 +636,9 @@ const initFlyingSanta = () => {
     // Particle Trail Engine
     let trailInterval;
     const createTrail = () => {
+        // PERF: No dust on mobile
+        if (isMobile) return;
+
         const rect = santa.getBoundingClientRect();
 
         // Spawn fewer particles for performance
