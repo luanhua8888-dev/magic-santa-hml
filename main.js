@@ -125,7 +125,8 @@ const createSnow = () => {
     const container = document.getElementById('snow-container');
     if (!container) return;
     container.innerHTML = ''; // Clear existing
-    const snowCount = isMobile ? 50 : 150; // Drastically reduce elements on mobile
+    // OPTIMIZATION: Reduced snow count to improve performance
+    const snowCount = isMobile ? 25 : 70;
     const flakeChars = ['❄', '❅', '❆', '•']; // Added actual character variants
 
     for (let i = 0; i < snowCount; i++) {
@@ -157,8 +158,12 @@ const createSnow = () => {
 
         // Depth effects
         snow.style.opacity = isCrystal ? 0.3 + (depth * 0.7) : 0.2 + (depth * 0.6);
-        // Only blur bg items slightly less if they are crystals to keep detail
-        snow.style.filter = `blur(${(1 - depth) * (isCrystal ? 1 : 3)}px)`;
+        // OPTIMIZATION: Simplify filter to reduce composite layer cost
+        // Only apply blur to very distant objects if absolutely necessary, or remove completely for performance
+        if (!isMobile && depth < 0.3) {
+            snow.style.filter = `blur(1px)`;
+        }
+
         snow.style.zIndex = depth > 0.8 ? 100 : 50;
 
         container.appendChild(snow);
@@ -455,6 +460,7 @@ const initMagicCursor = () => {
     let mouseX = 0;
     let mouseY = 0;
     let currentParticle = 0;
+    let lastSpawnTime = 0; // Throttling variable
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -463,8 +469,9 @@ const initMagicCursor = () => {
         gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.1 });
         gsap.to(follower, { x: mouseX, y: mouseY, duration: 0.5 });
 
-        // Spawn particle
-        if (Math.random() > 0.5) {
+        // OPTIMIZATION: Throttle particle spawning
+        const now = Date.now();
+        if (now - lastSpawnTime > 40) { // Limit to ~25fps spawn rate
             const p = particles[currentParticle];
             p.active = true;
             gsap.set(p.el, {
@@ -484,6 +491,7 @@ const initMagicCursor = () => {
             });
 
             currentParticle = (currentParticle + 1) % particleCount;
+            lastSpawnTime = now;
         }
     });
 };
@@ -625,11 +633,10 @@ const initFlyingSanta = () => {
     // Particle Trail Engine
     let trailInterval;
     const createTrail = () => {
-        // Get Santa's current position relative to the container
         const rect = santa.getBoundingClientRect();
 
-        // Spawn multiple particles for a richer trail
-        for (let i = 0; i < 3; i++) {
+        // Spawn fewer particles for performance
+        for (let i = 0; i < 1; i++) {
             const dust = document.createElement('div');
             dust.className = 'magic-dust';
 
@@ -680,8 +687,8 @@ const initFlyingSanta = () => {
                 scale: 0.6 // Start small (far away)
             });
 
-            // Start Dust Trail
-            trailInterval = setInterval(createTrail, 50);
+            // Start Dust Trail - Reduced frequency
+            trailInterval = setInterval(createTrail, 100);
 
             // Calculate angle
             const angle = Math.atan2(endY - startY, window.innerWidth) * (180 / Math.PI);

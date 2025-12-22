@@ -386,6 +386,8 @@ nav.scrolled {
     display: flex;
     align-items: center;
     justify-content: center;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .snowflake.crystal {
@@ -859,10 +861,29 @@ span.flatpickr-weekday {
     cursor: pointer;
     transition: 0.3s;
     color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .music-icon.playing {
     animation: pulse 1s infinite alternate;
+}
+
+.music-icon .icon-sound-on {
+    display: none;
+}
+
+.music-icon .icon-sound-off {
+    display: block;
+}
+
+.music-icon.playing .icon-sound-on {
+    display: block;
+}
+
+.music-icon.playing .icon-sound-off {
+    display: none;
 }
 
 @keyframes pulse {
@@ -1099,6 +1120,7 @@ span.flatpickr-weekday {
     z-index: 10000;
     /* High z-index to be visible */
     mix-blend-mode: screen;
+    will-change: transform, opacity;
 }
 
 /* Responsive Mobile Styles */
